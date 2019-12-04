@@ -1,0 +1,16 @@
+.navbar-custom {
+}
+
+.navbar-search-link {
+  display: inline-flex;
+  vertical-align: middle;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+.navbar-search-li {
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
