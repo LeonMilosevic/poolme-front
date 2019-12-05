@@ -12,11 +12,11 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
 
 // import icons
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
-const Driver = () => {
+const DriverSignin = () => {
   const [values, setValues] = React.useState({
     password: "",
     showPassword: false
@@ -38,18 +38,18 @@ const Driver = () => {
     <div className="user-btn-wrapper">
       <Button
         component={Link}
-        to={"/register/passanger/signin"}
+        to={"/register/passanger"}
         className={`btn waves-effect waves-light user-btn-register`}
-        endIcon={<ArrowForwardIosIcon />}
+        endIcon={<ArrowBackIosIcon />}
       >
-        Login
+        Register
       </Button>
     </div>
   );
 
   const signInForm = () => (
     <div className="container center">
-      <h5>Register</h5>
+      <h5>Sign in</h5>
       <FormControl className="form-input-custom">
         <InputLabel>Email</InputLabel>
         <Input />
@@ -72,34 +72,14 @@ const Driver = () => {
           }
         />
       </FormControl>
-      <FormControl className="form-input-custom">
-        <InputLabel htmlFor="standard-adornment-password">
-          Confirm Password
-        </InputLabel>
-        <Input
-          type={values.showPassword ? "text" : "password"}
-          value={values.password}
-          onChange={handleChange("password")}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-              >
-                {values.showPassword ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
       <Button
         className="green darken-3 user-btn-sign"
         variant="contained"
         color="secondary"
       >
-        Register
+        Login
       </Button>
-      <Facebook text={"Register with facebook"} />
+      <Facebook />
     </div>
   );
   return (
@@ -110,4 +90,4 @@ const Driver = () => {
   );
 };
 
-export default Driver;
+export default DriverSignin;

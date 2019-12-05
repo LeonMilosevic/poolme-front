@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 // import icons
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
-const Signup = () => {
+const Accounts = () => {
   return (
     <div className="user-register-wrapper container">
       <div className="user-btn-wrapper">
@@ -33,4 +33,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Accounts;
