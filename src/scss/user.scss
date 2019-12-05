@@ -1,0 +1,33 @@
+.user-register-wrapper {
+  height: 100vh;
+}
+.user-btn-register {
+  width: 100%;
+  display: flex !important;
+  justify-content: space-between !important;
+  text-transform: initial !important;
+}
+
+.user-btn-wrapper {
+  margin: 30px 0;
+}
+
+.user-btn-sign {
+  margin: 40px 0 !important;
+  width: 100%;
+}
+
+// form style
+.form-input-custom {
+  width: 100%;
+}
+.MuiInput-underline:before {
+  display: none;
+}
+.MuiInput-underline:after {
+  display: none;
+}
+
+.MuiFormLabel-root.Mui-focused {
+  color: red !important;
+}
