@@ -3,8 +3,6 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 // import context
 import AuthContext from "../../context/auth/authContext";
-// import components
-import Facebook from "./Facebook";
 // import material ui
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
@@ -13,20 +11,21 @@ import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
 // import icons
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import Facebook from "./Facebook";
 
-const Driver = () => {
+const Signup = () => {
   const authContext = useContext(AuthContext);
 
   const registerBtn = () => (
     <div className="user-btn-wrapper">
       <Button
         component={Link}
-        to={"/register/driver/signin"}
+        to={"/register/login"}
         className={`btn waves-effect waves-light user-btn-register`}
-        endIcon={<ArrowForwardIosIcon />}
+        endIcon={<ArrowBackIosIcon />}
       >
         Login
       </Button>
@@ -39,37 +38,37 @@ const Driver = () => {
       <FormControl className="form-input-custom">
         <InputLabel>First name</InputLabel>
         <Input
-          value={authContext.driverReg.firstName}
-          onChange={authContext.handleChange("firstName")}
+          value={authContext.reg.firstName}
+          onChange={authContext.handleChangeReg("firstName")}
         />
       </FormControl>
       <FormControl className="form-input-custom">
         <InputLabel>Last name</InputLabel>
         <Input
-          value={authContext.driverReg.lastName}
-          onChange={authContext.handleChange("lastName")}
+          value={authContext.reg.lastName}
+          onChange={authContext.handleChangeReg("lastName")}
         />
       </FormControl>
       <FormControl className="form-input-custom">
         <InputLabel>Email</InputLabel>
         <Input
-          value={authContext.driverReg.email}
-          onChange={authContext.handleChange("email")}
+          value={authContext.reg.email}
+          onChange={authContext.handleChangeReg("email")}
         />
       </FormControl>
       <FormControl className="form-input-custom">
         <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
         <Input
-          type={authContext.driverReg.showPassword ? "text" : "password"}
-          value={authContext.driverReg.password}
-          onChange={authContext.handleChange("password")}
+          type={authContext.reg.showPassword ? "text" : "password"}
+          value={authContext.reg.password}
+          onChange={authContext.handleChangeReg("password")}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
                 onClick={authContext.handleClickShowPass}
                 onMouseDown={authContext.handleMouseDownPassword}
               >
-                {authContext.driverReg.showPassword ? (
+                {authContext.reg.showPassword ? (
                   <Visibility />
                 ) : (
                   <VisibilityOff />
@@ -84,16 +83,16 @@ const Driver = () => {
           Confirm Password
         </InputLabel>
         <Input
-          type={authContext.driverReg.showPassword ? "text" : "password"}
-          value={authContext.driverReg.confirmPassword}
-          onChange={authContext.handleChange("confirmPassword")}
+          type={authContext.reg.showPassword ? "text" : "password"}
+          value={authContext.reg.confirmPassword}
+          onChange={authContext.handleChangeReg("confirmPassword")}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
                 onClick={authContext.handleClickShowPass}
                 onMouseDown={authContext.handleMouseDownPassword}
               >
-                {authContext.driverReg.showPassword ? (
+                {authContext.reg.showPassword ? (
                   <Visibility />
                 ) : (
                   <VisibilityOff />
@@ -107,19 +106,21 @@ const Driver = () => {
         className="green darken-3 user-btn-sign"
         variant="contained"
         color="secondary"
-        onClick={authContext.handleSubmitDriverReg}
+        onClick={authContext.handleSubmitReg}
       >
         Register
       </Button>
-      <Facebook text={"Register with facebook"} />
+      <Facebook />
     </div>
   );
   return (
     <div className="user-register-wrapper container">
+      {authContext.handleError(authContext.reg.error)}
+      {authContext.redirectUser()}
       {registerBtn()}
       {signInForm()}
     </div>
   );
 };
 
-export default Driver;
+export default Signup;

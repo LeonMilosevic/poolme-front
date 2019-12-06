@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 // import third party
 import { Link } from "react-router-dom";
+// import context
+import AuthContext from "../../context/auth/authContext";
 // import components
 import Facebook from "./Facebook";
 // import material ui
@@ -12,35 +14,20 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
 
 // import icons
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
-const DriverSignin = () => {
-  const [values, setValues] = React.useState({
-    password: "",
-    showPassword: false
-  });
-
-  const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
-
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
-
-  const handleMouseDownPassword = event => {
-    event.preventDefault();
-  };
+const Login = () => {
+  const authContext = useContext(AuthContext);
 
   const registerBtn = () => (
     <div className="user-btn-wrapper">
       <Button
         component={Link}
-        to={"/register/passanger"}
+        to={"/register/signup"}
         className={`btn waves-effect waves-light user-btn-register`}
-        endIcon={<ArrowBackIosIcon />}
+        endIcon={<ArrowForwardIosIcon />}
       >
         Register
       </Button>
@@ -49,24 +36,31 @@ const DriverSignin = () => {
 
   const signInForm = () => (
     <div className="container center">
-      <h5>Sign in</h5>
+      <h5>Login</h5>
       <FormControl className="form-input-custom">
         <InputLabel>Email</InputLabel>
-        <Input />
+        <Input
+          value={authContext.login.email}
+          onChange={authContext.handleChangeLogin("email")}
+        />
       </FormControl>
       <FormControl className="form-input-custom">
         <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
         <Input
-          type={values.showPassword ? "text" : "password"}
-          value={values.password}
-          onChange={handleChange("password")}
+          type={authContext.login.showPassword ? "text" : "password"}
+          value={authContext.login.password}
+          onChange={authContext.handleChangeLogin("password")}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
+                onClick={authContext.handleClickShowPass}
+                onMouseDown={authContext.handleMouseDownPassword}
               >
-                {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                {authContext.login.showPassword ? (
+                  <Visibility />
+                ) : (
+                  <VisibilityOff />
+                )}
               </IconButton>
             </InputAdornment>
           }
@@ -76,18 +70,21 @@ const DriverSignin = () => {
         className="green darken-3 user-btn-sign"
         variant="contained"
         color="secondary"
+        onClick={authContext.handleSubmitLogin}
       >
         Login
       </Button>
-      <Facebook />
+      <Facebook text={"Login with facebook"} />
     </div>
   );
   return (
     <div className="user-register-wrapper container">
+      {authContext.handleError(authContext.login.error)}
+      {authContext.redirectUser()}
       {registerBtn()}
       {signInForm()}
     </div>
   );
 };
 
-export default DriverSignin;
+export default Login;

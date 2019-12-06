@@ -7,10 +7,10 @@ import AddRide from "../core/AddRide";
 import Home from "../core/Home";
 // User
 import Accounts from "../user/Accounts";
-import Passanger from "../user/Passanger";
-import Driver from "../user/Driver";
-import DriverSignin from "../user/DriverSignin";
-import PassangerSignin from "../user/PassangerSignin";
+import Login from "../user/Login";
+import Signup from "../user/Signup";
+import Dashboard from "../user/Dashboard";
+import PrivateRoute from "../auth/PrivateRoute";
 
 const Routes = () => {
   return (
@@ -19,14 +19,9 @@ const Routes = () => {
       <Route exact path="/search-rides" component={SearchRide} />
       <Route exact path="/add-rides" component={AddRide} />
       <Route exact path="/register" component={Accounts} />
-      <Route exact path="/register/driver" component={Driver} />
-      <Route exact path="/register/driver/signin" component={DriverSignin} />
-      <Route exact path="/register/passanger" component={Passanger} />
-      <Route
-        exact
-        path="/register/passanger/signin"
-        component={PassangerSignin}
-      />
+      <Route exact path="/register/signup" component={Signup} />
+      <Route exact path="/register/login" component={Login} />
+      <PrivateRoute exact path="/user/dashboard" component={Dashboard} />
     </Switch>
   );
 };

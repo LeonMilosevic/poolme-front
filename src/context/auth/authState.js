@@ -1,11 +1,20 @@
 import React, { useState } from "react";
 import AuthContext from "./authContext";
+// import third part
+import { Redirect } from "react-router-dom";
+// import ui
+import ErrorMsg from "../../components/ui/ErrorMsg";
 
-import { signup } from "../../components/auth";
+import {
+  signup,
+  signin,
+  authenticate,
+  isAuthenticated
+} from "../../components/auth";
 
 const AuthState = props => {
   // register driver state
-  const [driverReg, setDriverReg] = useState({
+  const [reg, setReg] = useState({
     firstName: "",
     lastName: "",
     email: "",
@@ -14,59 +23,122 @@ const AuthState = props => {
     showPassword: false,
     loading: false,
     success: Boolean,
-    error: ""
+    error: "",
+    redirectToRefferer: false
   });
 
-  // register driver funcs
-  const handleChange = prop => event => {
-    setDriverReg({ ...driverReg, [prop]: event.target.value });
+  const [login, setLogin] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    loading: false,
+    success: Boolean,
+    error: "",
+    redirectToRefferer: false
+  });
+
+  // handlechange funcs
+  const handleChangeReg = prop => event => {
+    setReg({ ...reg, [prop]: event.target.value });
   };
 
-  const handleSubmitDriverReg = e => {
+  const handleChangeLogin = prop => event => {
+    setLogin({ ...login, [prop]: event.target.value });
+  };
+
+  const handleSubmitReg = e => {
     e.preventDefault();
-    setDriverReg({ ...driverReg, loading: true });
-    if (driverReg.confirmPassword !== driverReg.password) {
-      return setDriverReg({ ...driverReg, loading: false, success: false });
+    setReg({ ...reg, loading: true });
+    if (reg.confirmPassword !== reg.password) {
+      return setReg({ ...reg, loading: false, success: false });
     } else {
-      setDriverReg({ ...driverReg, loading: true });
+      setReg({ ...reg, loading: true });
       signup({
-        firstName: driverReg.firstName,
-        lastName: driverReg.lastName,
-        email: driverReg.email,
-        password: driverReg.password,
-        category: "driver"
-      }).then(data => {
-        if (data.error)
-          return setDriverReg({
-            ...driverReg,
+        firstName: reg.firstName,
+        lastName: reg.lastName,
+        email: reg.email,
+        password: reg.password
+      })
+        .then(data => {
+          if (data.errors || data.error)
+            return setReg({
+              ...reg,
+              loading: false,
+              error: "Something went wrong, please try again"
+            });
+
+          authenticate(data, () => {
+            setReg({
+              ...reg,
+              redirectToRefferer: true,
+              loading: false
+            });
+          });
+        })
+        .catch(error => console.log(error));
+    }
+  };
+
+  const handleSubmitLogin = e => {
+    e.preventDefault();
+    setLogin({ ...login, loading: true });
+
+    signin({
+      email: login.email,
+      password: login.password
+    })
+      .then(data => {
+        if (data.errors || data.error)
+          return setLogin({
+            ...login,
             loading: false,
-            error: data.error
+            error: "Something went wrong, please try again"
           });
 
-        console.log(data, "success");
-      });
-    }
+        authenticate(data, () => {
+          setLogin({
+            ...login,
+            redirectToRefferer: true,
+            loading: false
+          });
+        });
+      })
+      .catch(error => console.log(error));
   };
 
   // global func
 
+  const redirectUser = () => {
+    if (reg.redirectToRefferer || login.redirectToRefferer) {
+      if (isAuthenticated()) return <Redirect to="/user/dashboard" />;
+    }
+  };
+
   const handleClickShowPass = () => {
-    setDriverReg({ ...driverReg, showPassword: !driverReg.showPassword });
+    setReg({ ...reg, showPassword: !reg.showPassword });
   };
 
   const handleMouseDownPassword = event => {
     event.preventDefault();
   };
+
+  const handleError = error => <ErrorMsg msg={error} />;
+
   return (
     <AuthContext.Provider
       value={{
         //states
-        driverReg,
+        reg,
+        login,
         //func
-        handleChange,
+        handleChangeReg,
+        handleChangeLogin,
         handleClickShowPass,
         handleMouseDownPassword,
-        handleSubmitDriverReg
+        handleSubmitReg,
+        handleSubmitLogin,
+        redirectUser,
+        handleError
       }}
     >
       {props.children}

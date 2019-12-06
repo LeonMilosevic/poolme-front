@@ -12,20 +12,20 @@ const Accounts = () => {
       <div className="user-btn-wrapper">
         <Button
           component={Link}
-          to={"/register/driver"}
+          to={"/register/signup"}
           className={`btn waves-effect waves-light user-btn-register`}
           endIcon={<ArrowForwardIosIcon />}
         >
-          Driver
+          Register
         </Button>
       </div>
       <div className="user-btn-wrapper">
         <Button
           component={Link}
-          to={"/register/passanger"}
+          to={"/register/login"}
           className="btn waves-effect waves-light user-btn-register"
         >
-          Passanger
+          Login
           <ArrowForwardIosIcon />
         </Button>
       </div>
