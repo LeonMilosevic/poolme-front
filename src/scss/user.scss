@@ -48,3 +48,7 @@
 .MuiFormLabel-root.Mui-focused {
   color: red !important;
 }
+
+.MuiSnackbarContent-message::first-letter {
+  text-transform: uppercase;
+}

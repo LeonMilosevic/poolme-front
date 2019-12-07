@@ -39,16 +39,30 @@ const AuthState = props => {
 
   // handlechange funcs
   const handleChangeReg = prop => event => {
-    setReg({ ...reg, [prop]: event.target.value });
+    setReg({ ...reg, [prop]: event.target.value, error: "" });
   };
 
   const handleChangeLogin = prop => event => {
-    setLogin({ ...login, [prop]: event.target.value });
+    setLogin({ ...login, [prop]: event.target.value, error: "" });
   };
 
   const handleSubmitReg = e => {
     e.preventDefault();
     setReg({ ...reg, loading: true });
+    if (
+      reg.email === "" ||
+      reg.firstName === "" ||
+      reg.lastName === "" ||
+      reg.password === "" ||
+      reg.confirmPassword === ""
+    ) {
+      return setReg({
+        ...reg,
+        loading: false,
+        success: false,
+        error: "all fields are required"
+      });
+    }
     if (reg.confirmPassword !== reg.password) {
       return setReg({ ...reg, loading: false, success: false });
     } else {
@@ -60,11 +74,11 @@ const AuthState = props => {
         password: reg.password
       })
         .then(data => {
-          if (data.errors || data.error)
+          if (data.error)
             return setReg({
               ...reg,
               loading: false,
-              error: "Something went wrong, please try again"
+              error: data.error
             });
 
           authenticate(data, () => {
@@ -83,16 +97,24 @@ const AuthState = props => {
     e.preventDefault();
     setLogin({ ...login, loading: true });
 
+    if (login.email === "" || login.password === "") {
+      return setLogin({
+        ...login,
+        loading: false,
+        error: "all fields are required"
+      });
+    }
+
     signin({
       email: login.email,
       password: login.password
     })
       .then(data => {
-        if (data.errors || data.error)
+        if (data.error)
           return setLogin({
             ...login,
             loading: false,
-            error: "Something went wrong, please try again"
+            error: data.error
           });
 
         authenticate(data, () => {
@@ -101,6 +123,8 @@ const AuthState = props => {
             redirectToRefferer: true,
             loading: false
           });
+
+          return window.location.reload();
         });
       })
       .catch(error => console.log(error));

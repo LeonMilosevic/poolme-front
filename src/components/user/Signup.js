@@ -10,6 +10,7 @@ import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
+import Spinner from "../ui/Spinner";
 // import icons
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Visibility from "@material-ui/icons/Visibility";
@@ -114,12 +115,22 @@ const Signup = () => {
     </div>
   );
   return (
-    <div className="user-register-wrapper container">
-      {authContext.handleError(authContext.reg.error)}
-      {authContext.redirectUser()}
-      {registerBtn()}
-      {signInForm()}
-    </div>
+    <>
+      {authContext.reg.loading ? (
+        <div className="container full-height">
+          <div className="ui-center">
+            <Spinner />
+          </div>
+        </div>
+      ) : (
+        <div className="user-register-wrapper container">
+          {authContext.handleError(authContext.reg.error)}
+          {authContext.redirectUser()}
+          {registerBtn()}
+          {signInForm()}
+        </div>
+      )}
+    </>
   );
 };
 

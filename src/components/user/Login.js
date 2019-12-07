@@ -17,6 +17,7 @@ import FormControl from "@material-ui/core/FormControl";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import Spinner from "../ui/Spinner";
 
 const Login = () => {
   const authContext = useContext(AuthContext);
@@ -78,12 +79,22 @@ const Login = () => {
     </div>
   );
   return (
-    <div className="user-register-wrapper container">
-      {authContext.handleError(authContext.login.error)}
-      {authContext.redirectUser()}
-      {registerBtn()}
-      {signInForm()}
-    </div>
+    <>
+      {authContext.login.loading ? (
+        <div className="container full-height">
+          <div className="ui-center">
+            <Spinner />
+          </div>
+        </div>
+      ) : (
+        <div className="user-register-wrapper container">
+          {authContext.handleError(authContext.login.error)}
+          {authContext.redirectUser()}
+          {registerBtn()}
+          {signInForm()}
+        </div>
+      )}
+    </>
   );
 };
 

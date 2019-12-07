@@ -14,3 +14,8 @@
     background-color: rgba(0, 0, 0, 0.1);
   }
 }
+
+button:focus {
+  outline: none;
+  background-color: transparent;
+}
