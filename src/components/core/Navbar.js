@@ -1,24 +1,16 @@
 import React from "react";
-// import components
+// import third party
 import { Link } from "react-router-dom";
 // import helpers
 import { isAuthenticated } from "../auth";
+// import components
+import SideDrawer from "./SideDrawer";
 // import material icons
 import SearchIcon from "@material-ui/icons/Search";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
-import MenuIcon from "@material-ui/icons/Menu";
-import Drawer from "@material-ui/core/Drawer";
-import IconButton from "@material-ui/core/IconButton";
 
 const Navbar = () => {
-  // nav toggle state
-  const [openRight, setRight] = React.useState(false);
-
-  const toggleDrawer = () => {
-    setRight(!openRight);
-  };
-
   // right side
   const right = () => (
     <ul className="right">
@@ -35,32 +27,20 @@ const Navbar = () => {
     </ul>
   );
   // left side
-  const left = (leftLink = "/register") => (
+  const left = () => (
     <ul className="left nav-ul-custom">
       <li className="navbar-search-li">
-        <Link className="navbar-search-link" to={leftLink}>
+        <Link className="navbar-search-link" to="/register">
           <PersonOutlineIcon style={{ fontSize: "22px" }} />
         </Link>
       </li>
     </ul>
   );
   // signin right
-  const loggedRight = () => (
-    <ul className="right">
+  const sideMenu = () => (
+    <ul className="left">
       <li className="navbar-search-li">
-        <IconButton
-          onClick={toggleDrawer}
-          style={{ color: "#ffffff" }}
-          className="navbar-search-link focus-clear"
-        >
-          <MenuIcon style={{ fontSize: "24px" }} />
-        </IconButton>
-        <Drawer anchor="right" open={openRight} onClose={toggleDrawer}>
-          <div>hello test</div>
-          <div>hello test</div>
-          <div>hello test</div>
-          <div>hello test</div>
-        </Drawer>
+        <SideDrawer />
       </li>
     </ul>
   );
@@ -73,8 +53,8 @@ const Navbar = () => {
             Logo
           </Link>
 
-          {left("/user/dashboard")}
-          {loggedRight()}
+          {sideMenu()}
+          {right()}
         </div>
       </nav>
     </div>

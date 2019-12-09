@@ -19,3 +19,32 @@ button:focus {
   outline: none;
   background-color: transparent;
 }
+
+// side-drawer
+.MuiDrawer-paper {
+  width: 60%;
+}
+.drawer-background {
+  height: 200px;
+  background-image: url("https://res.cloudinary.com/clothify/image/upload/v1575898182/test_ih6qe4.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.drawer-profile-pic {
+  position: absolute;
+  top: 5%;
+  left: 3%;
+  width: 30%;
+  height: 10%;
+
+  border-radius: 50%;
+}
+
+.drawer-bg-links {
+  position: relative;
+  left: 3%;
+  top: 50%;
+  color: #ffffff;
+  display: block;
+}
