@@ -1,0 +1,15 @@
+.btn-custom {
+  background-color: red !important;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  color: black;
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}

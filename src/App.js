@@ -9,14 +9,17 @@ import "./App.scss";
 import Navbar from "./components/core/Navbar";
 // import states
 import AuthState from "./context/auth/authState";
+import UserState from "./context/user/userState";
 
 const App = () => {
   return (
     <Router>
       <AuthState>
-        <Navbar />
-        <Routes />
-        <Footer />
+        <UserState>
+          <Navbar />
+          <Routes />
+          <Footer />
+        </UserState>
       </AuthState>
     </Router>
   );

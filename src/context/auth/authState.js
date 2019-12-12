@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import AuthContext from "./authContext";
 // import third part
 import { Redirect } from "react-router-dom";
-// import ui
-import ErrorMsg from "../../components/ui/ErrorMsg";
 
 import {
   signup,
@@ -146,8 +144,6 @@ const AuthState = props => {
     event.preventDefault();
   };
 
-  const handleError = error => <ErrorMsg msg={error} />;
-
   return (
     <AuthContext.Provider
       value={{
@@ -161,8 +157,7 @@ const AuthState = props => {
         handleMouseDownPassword,
         handleSubmitReg,
         handleSubmitLogin,
-        redirectUser,
-        handleError
+        redirectUser
       }}
     >
       {props.children}

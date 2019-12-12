@@ -3,6 +3,8 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 // import context
 import AuthContext from "../../context/auth/authContext";
+// import helpers
+import { handleError } from "../ui";
 // import material ui
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
@@ -117,14 +119,10 @@ const Signup = () => {
   return (
     <>
       {authContext.reg.loading ? (
-        <div className="container full-height">
-          <div className="ui-center">
-            <Spinner />
-          </div>
-        </div>
+        <Spinner />
       ) : (
         <div className="user-register-wrapper container">
-          {authContext.handleError(authContext.reg.error)}
+          {handleError(authContext.reg.error)}
           {authContext.redirectUser()}
           {registerBtn()}
           {signInForm()}

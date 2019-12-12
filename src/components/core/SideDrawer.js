@@ -1,6 +1,8 @@
 import React from "react";
 // import third party
 import { Link } from "react-router-dom";
+// import helpers
+import { isAuthenticated } from "../auth";
 // import material ui
 import MenuIcon from "@material-ui/icons/Menu";
 import Drawer from "@material-ui/core/Drawer";
@@ -14,12 +16,17 @@ const SideDrawer = () => {
     setLeft(!openLeft);
   };
 
+  React.useEffect(() => {
+    // console.log(isAuthenticated());
+  }, []);
+
   const imgAndProfile = () => (
     <ul>
       <li>
         <div className="drawer-background">
           <Link to="/user/settings">
             <img
+              alt="cover"
               className="drawer-profile-pic"
               src="https://res.cloudinary.com/clothify/image/upload/v1575898183/test2_g3yyil.jpg"
             />
@@ -33,9 +40,7 @@ const SideDrawer = () => {
         </div>
       </li>
       <li>
-        <Link to="#!">
-          <i className="material-icons">cloud</i>First Link With Icon
-        </Link>
+        <Link to={`/inbox/${isAuthenticated().user._id}`}>Inbox</Link>
       </li>
       <li>
         <Link to="#!">Second Link</Link>

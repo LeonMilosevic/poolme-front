@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 // import third party
 import { Link } from "react-router-dom";
+// import helpers
+import { handleError } from "../ui";
 // import context
 import AuthContext from "../../context/auth/authContext";
 // import components
@@ -81,14 +83,10 @@ const Login = () => {
   return (
     <>
       {authContext.login.loading ? (
-        <div className="container full-height">
-          <div className="ui-center">
-            <Spinner />
-          </div>
-        </div>
+        <Spinner />
       ) : (
         <div className="user-register-wrapper container">
-          {authContext.handleError(authContext.login.error)}
+          {handleError(authContext.login.error)}
           {authContext.redirectUser()}
           {registerBtn()}
           {signInForm()}

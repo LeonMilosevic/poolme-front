@@ -15,7 +15,7 @@ const Navbar = () => {
   const right = () => (
     <ul className="right">
       <li className="navbar-search-li">
-        <Link className="navbar-search-link" to="/add-rides">
+        <Link className="navbar-search-link" to="/user/add-ride">
           <AddCircleOutlineIcon style={{ fontSize: "22px" }} />
         </Link>
       </li>

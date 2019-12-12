@@ -1,10 +1,57 @@
-import React from "react";
+import React, { useContext } from "react";
+// import context
+import UserContext from "../../context/user/userContext";
+// import helpers
+import { isAuthenticated } from "../auth";
+import { handleError, handleSuccess } from "../ui";
+// imoprt ui
+import Button from "@material-ui/core/Button";
+import Spinner from "../ui/Spinner";
 
 const AddRide = () => {
-  return (
-    <div>
-      <h1>hello add ride</h1>
+  const userContext = useContext(UserContext);
+
+  const isVerified = () => (
+    <div className="container">
+      <div>hello</div>
     </div>
+  );
+
+  const uploadForm = () => (
+    <div className="container">
+      <h6>To post a ride your account must be verified</h6>
+      <div className="drivers-form">
+        <h6>Attach your Drivers Licencse</h6>
+        <input
+          name="photo"
+          onChange={userContext.handleChangePhoto("photo")}
+          accept="image/*"
+          id="text-button-file"
+          multiple
+          type="file"
+        />
+        <label htmlFor="text-button-file" className="custom-file-upload">
+          Please choose a file
+        </label>
+        <Button onClick={userContext.clickSubmitPhoto} className="btn-custom">
+          Upload
+        </Button>
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      {handleError(userContext.photo.error)}
+      {handleSuccess(userContext.photo.success)}
+      {userContext.photo.loading ? (
+        <Spinner />
+      ) : isAuthenticated().user.driver.verified ? (
+        isVerified()
+      ) : (
+        uploadForm()
+      )}
+    </>
   );
 };
 
