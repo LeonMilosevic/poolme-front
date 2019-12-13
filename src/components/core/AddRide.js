@@ -4,17 +4,25 @@ import UserContext from "../../context/user/userContext";
 // import helpers
 import { isAuthenticated } from "../auth";
 import { handleError, handleSuccess } from "../ui";
+import { loadGoogleMaps } from "./helpers";
+// import components
+import GoogleSearch from "../user/GoogleSearch";
 // imoprt ui
 import Button from "@material-ui/core/Button";
 import Spinner from "../ui/Spinner";
 
 const AddRide = () => {
+  const [googleMapsReady, setGoogleMaps] = React.useState(false);
+
+  React.useEffect(() => {
+    loadGoogleMaps(() => {
+      setGoogleMaps(true);
+    });
+  }, []);
   const userContext = useContext(UserContext);
 
   const isVerified = () => (
-    <div className="container">
-      <div>hello</div>
-    </div>
+    <div className="container">{googleMapsReady ? <GoogleSearch /> : ""}</div>
   );
 
   const uploadForm = () => (
