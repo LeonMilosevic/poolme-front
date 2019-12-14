@@ -19,7 +19,15 @@ const UserState = props => {
     addressFrom: "",
     addressFromLatLng: {},
     addressTo: "",
-    addressToLatLng: {}
+    addressToLatLng: {},
+    stoppingBy: "",
+    stoppingByLatLng: {}
+  });
+
+  const [driverPost, setDriverPost] = useState({
+    timeOfDeparture: new Date("2020-01-18T21:11:54"),
+    pricePerPassanger: "",
+    seats: ""
   });
 
   // handle change funcs
@@ -29,6 +37,14 @@ const UserState = props => {
     photo.formData.set(name, value);
 
     setPhoto({ ...photo, [name]: value, error: "" });
+  };
+  // date change
+  const handleChangeDate = date => {
+    setDriverPost({ ...driverPost, timeOfDeparture: date });
+  };
+  // post change
+  const handleChangePost = name => e => {
+    setDriverPost({ ...driverPost, [name]: e.target.value });
   };
   // google maps
   const handleChangeAddressFrom = address => {
@@ -105,7 +121,12 @@ const UserState = props => {
         handleChangeAddressFrom,
         handleSelectAddressFrom,
         handleChangeAddressTo,
-        handleSelectAddressTo
+        handleSelectAddressTo,
+        // date
+        driverPost,
+        handleChangeDate,
+        //post
+        handleChangePost
       }}
     >
       {props.children}

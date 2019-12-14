@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 // import third party
 import { Link } from "react-router-dom";
 // import context
-import AuthContext from "../../context/auth/authContext";
+import AuthContext from "../../../context/auth/authContext";
 // import helpers
-import { handleError } from "../ui";
+import { handleError } from "../../ui";
 // import material ui
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
@@ -12,12 +12,12 @@ import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
-import Spinner from "../ui/Spinner";
+import Spinner from "../../ui/Spinner";
 // import icons
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import Facebook from "./Facebook";
+import Facebook from "../Facebook";
 
 const Signup = () => {
   const authContext = useContext(AuthContext);

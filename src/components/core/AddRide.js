@@ -6,7 +6,9 @@ import { isAuthenticated } from "../auth";
 import { handleError, handleSuccess } from "../ui";
 import { loadGoogleMaps } from "./helpers";
 // import components
-import GoogleSearch from "../user/GoogleSearch";
+import GoogleSearch from "../user/driver/GoogleSearch";
+import DatePicker from "../user/driver/DatePicker";
+import Post from "../user/driver/Post";
 // imoprt ui
 import Button from "@material-ui/core/Button";
 import Spinner from "../ui/Spinner";
@@ -22,7 +24,11 @@ const AddRide = () => {
   const userContext = useContext(UserContext);
 
   const isVerified = () => (
-    <div className="container">{googleMapsReady ? <GoogleSearch /> : ""}</div>
+    <div className="container">
+      {googleMapsReady ? <GoogleSearch /> : ""}
+      <DatePicker />
+      <Post />
+    </div>
   );
 
   const uploadForm = () => (

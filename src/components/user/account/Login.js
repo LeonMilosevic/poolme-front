@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 // import third party
 import { Link } from "react-router-dom";
 // import helpers
-import { handleError } from "../ui";
+import { handleError } from "../../ui";
 // import context
-import AuthContext from "../../context/auth/authContext";
+import AuthContext from "../../../context/auth/authContext";
 // import components
-import Facebook from "./Facebook";
+import Facebook from "../Facebook";
 // import material ui
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
@@ -19,7 +19,7 @@ import FormControl from "@material-ui/core/FormControl";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import Spinner from "../ui/Spinner";
+import Spinner from "../../ui/Spinner";
 
 const Login = () => {
   const authContext = useContext(AuthContext);

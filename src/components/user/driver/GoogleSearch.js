@@ -1,6 +1,6 @@
 import React from "react";
 // import context
-import UserContext from "../../context/user/userContext";
+import UserContext from "../../../context/user/userContext";
 // import third party
 import PlacesAutocomplete from "react-places-autocomplete";
 
@@ -16,10 +16,11 @@ export const GoogleSearch = () => {
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>
+            <h6>From</h6>
             <input
               {...getInputProps({
                 placeholder: "Search Places ...",
-                className: "location-search-input"
+                className: "form-input-custom google-input"
               })}
             />
             <div className="autocomplete-dropdown-container">
@@ -54,6 +55,7 @@ export const GoogleSearch = () => {
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>
+            <h6>To</h6>
             <input
               {...getInputProps({
                 placeholder: "Search Places ...",

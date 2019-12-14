@@ -6,10 +6,10 @@ import SearchRide from "../core/SearchRide";
 import AddRide from "../core/AddRide";
 import Home from "../core/Home";
 // User
-import Accounts from "../user/Accounts";
-import Login from "../user/Login";
-import Signup from "../user/Signup";
-import Dashboard from "../user/Dashboard";
+import Accounts from "../user/account/Accounts";
+import Login from "../user/account/Login";
+import Signup from "../user/account/Signup";
+import Dashboard from "../user/account/Dashboard";
 import PrivateRoute from "../auth/PrivateRoute";
 
 const Routes = () => {
