@@ -3,7 +3,7 @@ import UserContext from "./userContext";
 // imoprt third party
 import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 // import helpers
-import { uploadLicense } from "../../components/user/userApi";
+import { uploadLicense, createPost } from "../../components/user/userApi";
 import { isAuthenticated } from "../../components/auth";
 
 const UserState = props => {
@@ -15,19 +15,18 @@ const UserState = props => {
     formData: new FormData()
   });
 
-  const [googleSearch, setGoogleSearch] = useState({
+  const [driverPost, setDriverPost] = useState({
     addressFrom: "",
     addressFromLatLng: {},
     addressTo: "",
     addressToLatLng: {},
-    stoppingBy: "",
-    stoppingByLatLng: {}
-  });
-
-  const [driverPost, setDriverPost] = useState({
     timeOfDeparture: new Date("2020-01-18T21:11:54"),
     pricePerPassanger: "",
-    seats: ""
+    seats: "",
+    extraText: "",
+    loading: false,
+    error: "",
+    success: ""
   });
 
   // handle change funcs
@@ -48,19 +47,19 @@ const UserState = props => {
   };
   // google maps
   const handleChangeAddressFrom = address => {
-    setGoogleSearch({ ...googleSearch, addressFrom: address });
+    setDriverPost({ ...driverPost, addressFrom: address });
   };
 
   const handleChangeAddressTo = address => {
-    setGoogleSearch({ ...googleSearch, addressTo: address });
+    setDriverPost({ ...driverPost, addressTo: address });
   };
 
   const handleSelectAddressFrom = address => {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
-        setGoogleSearch({
-          ...googleSearch,
+        setDriverPost({
+          ...driverPost,
           addressFrom: address,
           addressFromLatLng: latLng
         });
@@ -72,8 +71,8 @@ const UserState = props => {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
-        setGoogleSearch({
-          ...googleSearch,
+        setDriverPost({
+          ...driverPost,
           addressTo: address,
           addressToLatLng: latLng
         });
@@ -82,7 +81,7 @@ const UserState = props => {
   };
 
   // end of handle change
-
+  // submit funcs
   const clickSubmitPhoto = e => {
     e.preventDefault();
     setPhoto({ ...photo, loading: true });
@@ -109,6 +108,64 @@ const UserState = props => {
     });
   };
 
+  const clickSubmitPost = e => {
+    e.preventDefault();
+
+    setDriverPost({ ...driverPost, loading: true, error: "" });
+
+    if (
+      driverPost.addressFrom === "" ||
+      driverPost.addressTo === "" ||
+      driverPost.pricePerPassanger === "" ||
+      driverPost.seats === "" ||
+      driverPost.extraText === "" ||
+      driverPost.timeOfDeparture === ""
+    ) {
+      return setDriverPost({
+        ...driverPost,
+        loading: false,
+        error: "all fields are required"
+      });
+    }
+
+    const post = {
+      addressFrom: driverPost.addressFrom,
+      addressFromLatLng: driverPost.addressFromLatLng,
+      addressTo: driverPost.addressTo,
+      addressToLatLng: driverPost.addressToLatLng,
+      timeOfDeparture: driverPost.timeOfDeparture,
+      pricePerPassanger: driverPost.pricePerPassanger,
+      seats: driverPost.seats,
+      extraText: driverPost.extraText
+    };
+
+    createPost(isAuthenticated().token, post)
+      .then(data => {
+        if (data.error)
+          return setDriverPost({
+            ...driverPost,
+            loading: false,
+            error: data.error
+          });
+
+        setDriverPost({
+          ...driverPost,
+          loading: false,
+          success: "Post created successfuly",
+          error: "",
+          addressFrom: "",
+          addressFromLatLng: {},
+          addressTo: "",
+          addressToLatLng: {},
+          timeOfDeparture: new Date("2020-01-18T21:11:54"),
+          pricePerPassanger: "",
+          seats: "",
+          extraText: ""
+        });
+      })
+      .catch(error => console.log(error));
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -117,7 +174,6 @@ const UserState = props => {
         handleChangePhoto,
         clickSubmitPhoto,
         // google maps
-        googleSearch,
         handleChangeAddressFrom,
         handleSelectAddressFrom,
         handleChangeAddressTo,
@@ -126,7 +182,8 @@ const UserState = props => {
         driverPost,
         handleChangeDate,
         //post
-        handleChangePost
+        handleChangePost,
+        clickSubmitPost
       }}
     >
       {props.children}

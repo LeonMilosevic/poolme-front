@@ -24,11 +24,19 @@ const AddRide = () => {
   const userContext = useContext(UserContext);
 
   const isVerified = () => (
-    <div className="container">
-      {googleMapsReady ? <GoogleSearch /> : ""}
-      <DatePicker />
-      <Post />
-    </div>
+    <>
+      {userContext.driverPost.loading ? (
+        <Spinner />
+      ) : (
+        <div className="container">
+          {handleError(userContext.driverPost.error)}
+          {handleSuccess(userContext.driverPost.success)}
+          {googleMapsReady ? <GoogleSearch /> : ""}
+          <DatePicker />
+          <Post />
+        </div>
+      )}
+    </>
   );
 
   const uploadForm = () => (

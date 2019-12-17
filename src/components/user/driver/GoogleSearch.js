@@ -10,7 +10,7 @@ export const GoogleSearch = () => {
   return (
     <>
       <PlacesAutocomplete
-        value={userContext.googleSearch.addressFrom}
+        value={userContext.driverPost.addressFrom}
         onChange={userContext.handleChangeAddressFrom}
         onSelect={userContext.handleSelectAddressFrom}
       >
@@ -49,7 +49,7 @@ export const GoogleSearch = () => {
         )}
       </PlacesAutocomplete>
       <PlacesAutocomplete
-        value={userContext.googleSearch.addressTo}
+        value={userContext.driverPost.addressTo}
         onChange={userContext.handleChangeAddressTo}
         onSelect={userContext.handleSelectAddressTo}
       >

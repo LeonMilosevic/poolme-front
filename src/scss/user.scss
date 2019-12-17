@@ -12,6 +12,16 @@
   margin: 30px 0;
 }
 
+.btn-success {
+  background-color: #4caf50;
+  &:hover {
+    background-color: darken(#4caf50, 10%);
+  }
+  &:focus {
+    background-color: darken(#4caf50, 10%);
+  }
+}
+
 .user-btn-sign {
   margin: 40px 0 !important;
   margin-bottom: 20px !important;

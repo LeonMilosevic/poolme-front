@@ -9,6 +9,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import MenuItem from "@material-ui/core/MenuItem";
 import Input from "@material-ui/core/Input";
 import EuroIcon from "@material-ui/icons/Euro";
+import TextField from "@material-ui/core/TextField";
 
 const Post = () => {
   const userContext = React.useContext(UserContext);
@@ -44,6 +45,27 @@ const Post = () => {
           }
         />
       </FormControl>
+      <TextField
+        inputProps={{ maxLength: 250 }}
+        id="driverText"
+        className="form-input-custom"
+        label="Add something"
+        multiline
+        placeholder="Are you stopping somewhere? Do you have any rules?"
+        rowsMax="5"
+        name="extraText"
+        value={userContext.driverPost.extraText}
+        color="primary"
+        onChange={userContext.handleChangePost("extraText")}
+        variant="outlined"
+      />
+      <button
+        onClick={userContext.clickSubmitPost}
+        className="user-btn-sign btn btn-success waves-effect waves-light"
+        type="submit"
+      >
+        Submit
+      </button>
     </>
   );
 };
