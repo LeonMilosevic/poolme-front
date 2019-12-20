@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 // import pages
 // core
+import SingleRide from "../core/SingleRide";
 import SearchRide from "../core/SearchRide";
 import AddRide from "../core/AddRide";
 import Home from "../core/Home";
@@ -20,6 +21,7 @@ const Routes = () => {
       <Route exact path="/register" component={Accounts} />
       <Route exact path="/register/signup" component={Signup} />
       <Route exact path="/register/login" component={Login} />
+      <Route exact path="/ride/:rideId" component={SingleRide} />
       <PrivateRoute exact path="/user/dashboard" component={Dashboard} />
       <PrivateRoute exact path="/user/add-ride" component={AddRide} />
     </Switch>

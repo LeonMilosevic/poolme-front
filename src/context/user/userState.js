@@ -3,7 +3,11 @@ import UserContext from "./userContext";
 // imoprt third party
 import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 // import helpers
-import { uploadLicense, createPost } from "../../components/user/userApi";
+import {
+  uploadLicense,
+  createPost,
+  getPosts
+} from "../../components/user/userApi";
 import { isAuthenticated } from "../../components/auth";
 
 const UserState = props => {
@@ -20,6 +24,8 @@ const UserState = props => {
     addressFromLatLng: {},
     addressTo: "",
     addressToLatLng: {},
+    stoppingBy: "",
+    stoppingByLatLng: {},
     timeOfDeparture: new Date("2020-01-18T21:11:54"),
     pricePerPassanger: "",
     seats: "",
@@ -29,8 +35,43 @@ const UserState = props => {
     success: ""
   });
 
-  // handle change funcs
+  const [displayPostsByPrice, setDisplayPostsByPrice] = useState({
+    posts: [],
+    error: "",
+    loading: false
+  });
 
+  const [allPosts, setAllPosts] = useState([]);
+  // get posts
+  const getPostsByPrice = () => {
+    setDisplayPostsByPrice({ ...displayPostsByPrice, loading: true });
+    getPosts("pricePerPassanger", 3)
+      .then(data => {
+        if (data.error)
+          return setDisplayPostsByPrice({
+            ...displayPostsByPrice,
+            loading: false,
+            error: data.error
+          });
+
+        setDisplayPostsByPrice({
+          ...displayPostsByPrice,
+          loading: false,
+          posts: data,
+          error: ""
+        });
+      })
+      .catch(error => console.log(error));
+  };
+  // populate posts
+  const getAllPosts = () => {
+    getPosts("createdAt", undefined).then(data => {
+      if (data.error) return console.log(data.error);
+
+      setAllPosts(data);
+    });
+  };
+  // handle change funcs
   const handleChangePhoto = name => e => {
     const value = name === "photo" ? e.target.files[0] : e.target.value;
     photo.formData.set(name, value);
@@ -39,15 +80,15 @@ const UserState = props => {
   };
   // date change
   const handleChangeDate = date => {
-    setDriverPost({ ...driverPost, timeOfDeparture: date });
+    setDriverPost({ ...driverPost, timeOfDeparture: date, success: "" });
   };
   // post change
   const handleChangePost = name => e => {
-    setDriverPost({ ...driverPost, [name]: e.target.value });
+    setDriverPost({ ...driverPost, [name]: e.target.value, success: "" });
   };
   // google maps
   const handleChangeAddressFrom = address => {
-    setDriverPost({ ...driverPost, addressFrom: address });
+    setDriverPost({ ...driverPost, addressFrom: address, success: "" });
   };
 
   const handleChangeAddressTo = address => {
@@ -61,7 +102,8 @@ const UserState = props => {
         setDriverPost({
           ...driverPost,
           addressFrom: address,
-          addressFromLatLng: latLng
+          addressFromLatLng: latLng,
+          success: ""
         });
       })
       .catch(error => console.error("Error", error));
@@ -74,7 +116,26 @@ const UserState = props => {
         setDriverPost({
           ...driverPost,
           addressTo: address,
-          addressToLatLng: latLng
+          addressToLatLng: latLng,
+          success: ""
+        });
+      })
+      .catch(error => console.error("Error", error));
+  };
+
+  const handleChangeStoppingBy = address => {
+    setDriverPost({ ...driverPost, stoppingBy: address, success: "" });
+  };
+
+  const handleSelectStoppingBy = address => {
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {
+        setDriverPost({
+          ...driverPost,
+          stoppingBy: address,
+          stoppingByLatLng: latLng,
+          success: ""
         });
       })
       .catch(error => console.error("Error", error));
@@ -133,6 +194,8 @@ const UserState = props => {
       addressFromLatLng: driverPost.addressFromLatLng,
       addressTo: driverPost.addressTo,
       addressToLatLng: driverPost.addressToLatLng,
+      stoppingBy: driverPost.stoppingBy,
+      stoppingByLatLng: driverPost.stoppingByLatLng,
       timeOfDeparture: driverPost.timeOfDeparture,
       pricePerPassanger: driverPost.pricePerPassanger,
       seats: driverPost.seats,
@@ -157,6 +220,8 @@ const UserState = props => {
           addressFromLatLng: {},
           addressTo: "",
           addressToLatLng: {},
+          stoppingBy: "",
+          stoppingByLatLng: {},
           timeOfDeparture: new Date("2020-01-18T21:11:54"),
           pricePerPassanger: "",
           seats: "",
@@ -178,10 +243,16 @@ const UserState = props => {
         handleSelectAddressFrom,
         handleChangeAddressTo,
         handleSelectAddressTo,
+        handleChangeStoppingBy,
+        handleSelectStoppingBy,
         // date
         driverPost,
         handleChangeDate,
         //post
+        allPosts,
+        getAllPosts,
+        displayPostsByPrice,
+        getPostsByPrice,
         handleChangePost,
         clickSubmitPost
       }}

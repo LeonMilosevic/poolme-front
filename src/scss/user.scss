@@ -68,7 +68,10 @@
   text-align: center;
   margin: 80% 0;
 }
-
+// search
+.search-formcontrol {
+  width: 100%;
+}
 // google maps
 input:not([type]):focus:not([readonly]),
 input[type="text"]:not(.browser-default):focus:not([readonly]),

@@ -16,7 +16,7 @@ const Post = () => {
   return (
     <>
       <FormControl className="form-input-custom">
-        <InputLabel id="select-label">Seats</InputLabel>
+        <InputLabel id="select-label">Passangers</InputLabel>
         <Select
           name="seats"
           labelId="select-label"
@@ -25,10 +25,9 @@ const Post = () => {
           onChange={userContext.handleChangePost("seats")}
         >
           <MenuItem value={1}>1</MenuItem>
+          <MenuItem value={2}>2</MenuItem>
           <MenuItem value={3}>3</MenuItem>
           <MenuItem value={4}>4</MenuItem>
-          <MenuItem value={7}>7</MenuItem>
-          <MenuItem value={10}>10</MenuItem>
         </Select>
       </FormControl>
       <FormControl className="form-input-custom">

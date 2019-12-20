@@ -34,3 +34,19 @@ export const createPost = (token, post) => {
       console.log(err);
     });
 };
+
+export const getPosts = (sortBy, limit) => {
+  return fetch(`${API}/posts?sortBy=${sortBy}&order=asc&limit=${limit}`, {
+    method: "GET"
+  })
+    .then(response => response.json())
+    .catch(error => console.log(error));
+};
+
+export const read = postById => {
+  return fetch(`${API}/posts/${postById}`, {
+    method: "GET"
+  })
+    .then(response => response.json())
+    .catch(error => console.log(error));
+};
