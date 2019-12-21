@@ -1,39 +1,49 @@
 import React from "react";
 // import helpers
 import { read } from "../user/userApi";
+// import context
+import UserContext from "../../context/user/userContext";
+import BookForm from "../user/passanger/BookForm";
 
 const SingleRide = props => {
-  const [ride, setRide] = React.useState({
-    data: {},
-    error: ""
-  });
+  const userContext = React.useContext(UserContext);
+
   React.useEffect(() => {
     const id = props.match.params.rideId;
     read(id).then(data => {
-      if (data.error) return setRide({ ...ride, error: data.error });
-      setRide({ ...ride, data, error: "" });
+      if (data.error)
+        return userContext.setSingleRide({
+          ...userContext.singleRide,
+          error: data.error
+        });
+      userContext.setSingleRide(data);
     });
   }, []);
 
   return (
     <>
-      {ride.data && ride.data.user && (
+      {userContext.singleRide && userContext.singleRide.user && (
         <div>
-          <div>from: {ride.data.addressFrom}</div>
-          <div>to: {ride.data.addressTo}</div>
+          <div>from: {userContext.singleRide.addressFrom}</div>
+          <div>to: {userContext.singleRide.addressTo}</div>
           <div>
-            {ride.data.stoppingBy ? `stopping by: ${ride.data.stoppingBy}` : ""}
+            {userContext.singleRide.stoppingBy
+              ? `stopping by: ${userContext.singleRide.stoppingBy}`
+              : ""}
           </div>
-          <div>when: {ride.data.timeOfDeparture}</div>
-          <div>price: {ride.data.pricePerPassanger}</div>
-          <div>seats left: {ride.data.seats}</div>
-          <div>words from driver: {ride.data.extraText}</div>
+          <div>when: {userContext.singleRide.timeOfDeparture}</div>
+          <div>price: {userContext.singleRide.pricePerPassanger}</div>
+          <div>seats left: {userContext.singleRide.seats}</div>
+          <div>words from driver: {userContext.singleRide.extraText}</div>
           <div>
-            driver: {ride.data.user.firstName} {ride.data.user.lastName}
+            driver: {userContext.singleRide.user.firstName}{" "}
+            {userContext.singleRide.user.lastName}
           </div>
-          <button className="waves-effect waves-light btn layout-btn">
-            book
-          </button>
+          <div>
+            verified:{" "}
+            {userContext.singleRide.user.driver.verified ? "yes" : "no"}
+          </div>
+          <BookForm />
         </div>
       )}
     </>

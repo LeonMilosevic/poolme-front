@@ -63,6 +63,10 @@ const UserState = props => {
       })
       .catch(error => console.log(error));
   };
+
+  const [singleRide, setSingleRide] = useState({});
+
+  const [bookSingleRide, setBookSingleRide] = useState({});
   // populate posts
   const getAllPosts = () => {
     getPosts("createdAt", undefined).then(data => {
@@ -254,7 +258,10 @@ const UserState = props => {
         displayPostsByPrice,
         getPostsByPrice,
         handleChangePost,
-        clickSubmitPost
+        clickSubmitPost,
+        //single ride
+        singleRide,
+        setSingleRide
       }}
     >
       {props.children}
