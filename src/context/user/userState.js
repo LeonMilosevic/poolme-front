@@ -202,7 +202,7 @@ const UserState = props => {
       extraText: driverPost.extraText
     };
 
-    createPost(isAuthenticated().token, post)
+    createPost(isAuthenticated().token, isAuthenticated().user._id, post)
       .then(data => {
         if (data.error)
           return setDriverPost({

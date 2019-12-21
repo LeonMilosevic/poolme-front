@@ -17,7 +17,7 @@ export const uploadLicense = (userId, token, photo) => {
     });
 };
 
-export const createPost = (token, post) => {
+export const createPost = (token, user, post) => {
   return fetch(`${API}/posts`, {
     method: "POST",
     headers: {
@@ -25,7 +25,7 @@ export const createPost = (token, post) => {
       "Content-type": "application/json",
       Authorization: token
     },
-    body: JSON.stringify(post)
+    body: JSON.stringify(post, user)
   })
     .then(response => {
       return response.json();
