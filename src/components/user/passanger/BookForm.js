@@ -1,4 +1,6 @@
 import React from "react";
+// import helpers
+import { isAuthenticated } from "../../auth";
 // import context
 import UserContext from "../../../context/user/userContext";
 // import material
@@ -22,18 +24,32 @@ const BookForm = () => {
       <FormControl className="form-input-custom">
         <InputLabel id="select-label">Select seats</InputLabel>
         <Select
-          name="seats"
           labelId="select-label"
-          id="select"
-          value={""}
-          onChange={userContext.handleChangePost("seats")}
+          value={userContext.bookSingleRide.seats}
+          onChange={userContext.handleChangeSeatsBooking}
         >
           {getSeats().map(item => (
-            <MenuItem key={item}>{item}</MenuItem>
+            <MenuItem key={item} value={item}>
+              {item}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
-      <button className="waves-effect waves-light btn layout-btn">book</button>
+      {isAuthenticated() ? (
+        <button
+          onClick={userContext.submitBooking}
+          className="waves-effect waves-light btn layout-btn"
+        >
+          book
+        </button>
+      ) : (
+        <div>
+          <button className="waves-effect waves-light btn layout-btn disabled">
+            book
+          </button>
+          <p>please sign in</p>
+        </div>
+      )}
     </>
   );
 };

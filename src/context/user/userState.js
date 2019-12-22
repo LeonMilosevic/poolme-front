@@ -6,7 +6,8 @@ import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 import {
   uploadLicense,
   createPost,
-  getPosts
+  getPosts,
+  createRide
 } from "../../components/user/userApi";
 import { isAuthenticated } from "../../components/auth";
 
@@ -42,6 +43,15 @@ const UserState = props => {
   });
 
   const [allPosts, setAllPosts] = useState([]);
+
+  const [singleRide, setSingleRide] = useState({});
+
+  const [bookSingleRide, setBookSingleRide] = useState({
+    seats: "",
+    loading: false,
+    error: "",
+    success: ""
+  });
   // get posts
   const getPostsByPrice = () => {
     setDisplayPostsByPrice({ ...displayPostsByPrice, loading: true });
@@ -63,10 +73,6 @@ const UserState = props => {
       })
       .catch(error => console.log(error));
   };
-
-  const [singleRide, setSingleRide] = useState({});
-
-  const [bookSingleRide, setBookSingleRide] = useState({});
   // populate posts
   const getAllPosts = () => {
     getPosts("createdAt", undefined).then(data => {
@@ -97,6 +103,10 @@ const UserState = props => {
 
   const handleChangeAddressTo = address => {
     setDriverPost({ ...driverPost, addressTo: address });
+  };
+
+  const handleChangeSeatsBooking = e => {
+    setBookSingleRide({ ...bookSingleRide, seats: e.target.value });
   };
 
   const handleSelectAddressFrom = address => {
@@ -235,6 +245,60 @@ const UserState = props => {
       .catch(error => console.log(error));
   };
 
+  const submitBooking = e => {
+    e.preventDefault();
+    setBookSingleRide({ ...bookSingleRide, loading: true });
+    // cal distance
+    const rad = function(x) {
+      return (x * Math.PI) / 180;
+    };
+
+    const getDistance = function(p1, p2) {
+      const R = 6378137; // Earth’s mean radius in meter
+      const dLat = rad(p2.lat - p1.lat);
+      const dLong = rad(p2.lng - p1.lng);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(rad(p1.lat)) *
+          Math.cos(rad(p2.lat)) *
+          Math.sin(dLong / 2) *
+          Math.sin(dLong / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const d = R * c;
+      return d; // returns the distance in meter
+    };
+    const distance = getDistance(
+      singleRide.addressFromLatLng,
+      singleRide.addressToLatLng
+    ).toFixed(2);
+    // create ride
+    const ride = {
+      postId: singleRide._id,
+      addressFrom: singleRide.addressFrom,
+      addressTo: singleRide.addressTo,
+      stoppingBy: singleRide.stoppingBy,
+      seats: bookSingleRide.seats,
+      distance
+    };
+    createRide(isAuthenticated().token, isAuthenticated().user._id, ride)
+      .then(data => {
+        if (data.error)
+          return setBookSingleRide({
+            ...setBookSingleRide,
+            loading: false,
+            error: data.error
+          });
+
+        setBookSingleRide({
+          ...bookSingleRide,
+          loading: false,
+          success: "booked successfuly"
+        });
+      })
+      .catch(error => console.log(error));
+    console.log("clicked");
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -261,7 +325,12 @@ const UserState = props => {
         clickSubmitPost,
         //single ride
         singleRide,
-        setSingleRide
+        setSingleRide,
+        //book single
+        bookSingleRide,
+        setBookSingleRide,
+        handleChangeSeatsBooking,
+        submitBooking
       }}
     >
       {props.children}

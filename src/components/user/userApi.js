@@ -50,3 +50,21 @@ export const read = postById => {
     .then(response => response.json())
     .catch(error => console.log(error));
 };
+
+export const createRide = (token, userId, ride) => {
+  return fetch(`${API}/ride/create/${userId}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(ride)
+  })
+    .then(response => {
+      return response.json();
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
