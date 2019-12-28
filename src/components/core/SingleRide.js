@@ -1,6 +1,7 @@
 import React from "react";
 // import helpers
 import { read } from "../user/userApi";
+import { handleError, handleSuccess } from "../ui";
 // import context
 import UserContext from "../../context/user/userContext";
 import BookForm from "../user/passanger/BookForm";
@@ -22,6 +23,8 @@ const SingleRide = props => {
 
   return (
     <>
+      {handleError(userContext.bookSingleRide.error)}
+      {handleSuccess(userContext.bookSingleRide.success)}
       {userContext.singleRide && userContext.singleRide.user && (
         <div>
           <div>from: {userContext.singleRide.addressFrom}</div>
@@ -33,7 +36,16 @@ const SingleRide = props => {
           </div>
           <div>when: {userContext.singleRide.timeOfDeparture}</div>
           <div>price: {userContext.singleRide.pricePerPassanger}</div>
-          <div>seats left: {userContext.singleRide.seats}</div>
+          <div>
+            seats left:{" "}
+            {userContext.singleRide.seats === 0 ? (
+              <span>
+                none <button>notify me if seats open</button>
+              </span>
+            ) : (
+              userContext.singleRide.seats
+            )}
+          </div>
           <div>words from driver: {userContext.singleRide.extraText}</div>
           <div>
             driver: {userContext.singleRide.user.firstName}{" "}

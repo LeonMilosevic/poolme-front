@@ -52,6 +52,13 @@ const UserState = props => {
     error: "",
     success: ""
   });
+
+  const [user, setUser] = useState({
+    user: {},
+    loaded: false,
+    rank: "",
+    totalDistanceKm: ""
+  });
   // get posts
   const getPostsByPrice = () => {
     setDisplayPostsByPrice({ ...displayPostsByPrice, loading: true });
@@ -75,11 +82,13 @@ const UserState = props => {
   };
   // populate posts
   const getAllPosts = () => {
-    getPosts("createdAt", undefined).then(data => {
-      if (data.error) return console.log(data.error);
+    getPosts("createdAt", undefined)
+      .then(data => {
+        if (data.error) return console.log(data.error);
 
-      setAllPosts(data);
-    });
+        setAllPosts(data);
+      })
+      .catch(error => console.log(error));
   };
   // handle change funcs
   const handleChangePhoto = name => e => {
@@ -278,7 +287,8 @@ const UserState = props => {
       addressTo: singleRide.addressTo,
       stoppingBy: singleRide.stoppingBy,
       seats: bookSingleRide.seats,
-      distance
+      distance,
+      timeOfDeparture: singleRide.timeOfDeparture
     };
     createRide(isAuthenticated().token, isAuthenticated().user._id, ride)
       .then(data => {
@@ -296,7 +306,37 @@ const UserState = props => {
         });
       })
       .catch(error => console.log(error));
-    console.log("clicked");
+  };
+
+  // calculating rank based on distance traveled function
+  const calRank = () => {
+    let rank;
+    let totalDistanceM;
+    let totalDistanceKm;
+    let historyDistance = [];
+
+    if (user.loaded) {
+      user.user.passenger.history.map(ride => {
+        historyDistance.push(Math.round(Number(ride.distance) * 1e2) / 1e2);
+      });
+    }
+
+    totalDistanceM = historyDistance.reduce((a, b) => a + b, 0);
+    totalDistanceKm = totalDistanceM / 1000;
+
+    if (totalDistanceKm < 500) {
+      rank = "the beginner";
+    } else if (totalDistanceKm < 1000) {
+      rank = "the explorer";
+    } else {
+      rank = "the wise";
+    }
+
+    return setUser({
+      ...user,
+      rank,
+      totalDistanceKm: totalDistanceKm.toFixed(2)
+    });
   };
 
   return (
@@ -330,7 +370,11 @@ const UserState = props => {
         bookSingleRide,
         setBookSingleRide,
         handleChangeSeatsBooking,
-        submitBooking
+        submitBooking,
+        //user
+        user,
+        setUser,
+        calRank
       }}
     >
       {props.children}

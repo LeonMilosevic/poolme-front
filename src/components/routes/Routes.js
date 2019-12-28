@@ -12,6 +12,8 @@ import Login from "../user/account/Login";
 import Signup from "../user/account/Signup";
 import Dashboard from "../user/account/Dashboard";
 import PrivateRoute from "../auth/PrivateRoute";
+import UpcomingEvents from "../user/account/UpcomingEvents";
+import History from "../user/account/History";
 
 const Routes = () => {
   return (
@@ -23,6 +25,12 @@ const Routes = () => {
       <Route exact path="/register/login" component={Login} />
       <Route exact path="/ride/:rideId" component={SingleRide} />
       <PrivateRoute exact path="/user/dashboard" component={Dashboard} />
+      <PrivateRoute
+        exact
+        path="/user/upcoming-rides"
+        component={UpcomingEvents}
+      />
+      <PrivateRoute exact path="/user/history" component={History} />
       <PrivateRoute exact path="/user/add-ride" component={AddRide} />
     </Switch>
   );

@@ -1,4 +1,6 @@
 import React from "react";
+// import third party
+import { Link } from "react-router-dom";
 // import components
 import Layout from "./Layout";
 import Rides from "./Rides";
@@ -8,7 +10,9 @@ import ReferLinks from "./ReferLinks";
 const Home = () => {
   return (
     <>
-      <h5>Are you a traveler?</h5>
+      <h5>
+        <Link to="/search-rides">Are you a traveler?</Link>
+      </h5>
       <Layout
         bgimg={`url(https://res.cloudinary.com/clothify/image/upload/v1575472209/a2b_pjnchk.jpg)`}
         heroText={"Where are you going?"}

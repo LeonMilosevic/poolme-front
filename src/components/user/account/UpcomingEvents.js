@@ -6,7 +6,8 @@ import { isAuthenticated } from "../../auth";
 import { getUser } from "../userApi";
 // import components
 import Spinner from "../../ui/Spinner";
-const Dashboard = () => {
+
+const UpcomingEvents = () => {
   const userContext = React.useContext(UserContext);
 
   React.useEffect(() => {
@@ -17,9 +18,16 @@ const Dashboard = () => {
     });
   }, []);
 
-  React.useEffect(() => {
-    userContext.calRank();
-  }, [userContext.user.loaded]);
+  const upcoming = () => {
+    let upcomingR = [];
+
+    userContext.user.user.passenger.history.map(ride => {
+      if (new Date().getTime() < new Date(ride.timeOfDeparture).getTime())
+        upcomingR.push(ride);
+    });
+
+    return upcomingR;
+  };
 
   return (
     <>
@@ -27,24 +35,19 @@ const Dashboard = () => {
         <Spinner />
       ) : (
         <div className="container">
-          <h6>
-            Welcome to your account, {userContext.user.user.firstName}{" "}
-            {userContext.user.rank}
-          </h6>
-          <div>
-            traveled: <div>{userContext.user.totalDistanceKm}</div>
-          </div>
-          <div>People have rated you:</div>
-          <div>
-            Your history:{" "}
-            {userContext.user.user.passenger.history.map(item => (
-              <div key={item.postId}>{item.postId}</div>
-            ))}
-          </div>
+          {userContext.user.user.passenger.history.length === 0 ? (
+            <div>no upcoming events</div>
+          ) : (
+            upcoming().map(ride => (
+              <div key={ride.postId}>
+                id: {ride.postId} <button>cancel</button>
+              </div>
+            ))
+          )}
         </div>
       )}
     </>
   );
 };
 
-export default Dashboard;
+export default UpcomingEvents;

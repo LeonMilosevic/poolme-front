@@ -68,3 +68,14 @@ export const createRide = (token, userId, ride) => {
       console.log(err);
     });
 };
+
+export const getUser = (userId, token) => {
+  return fetch(`${API}/user/${userId}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then(response => response.json())
+    .catch(error => console.log(error));
+};

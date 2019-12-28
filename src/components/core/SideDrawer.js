@@ -16,49 +16,54 @@ const SideDrawer = () => {
     setLeft(!openLeft);
   };
 
-  React.useEffect(() => {
-    // console.log(isAuthenticated());
-  }, []);
-
   const imgAndProfile = () => (
-    <ul>
-      <li>
-        <div className="drawer-background">
-          <Link to="/user/settings">
-            <img
-              alt="cover"
-              className="drawer-profile-pic"
-              src="https://res.cloudinary.com/clothify/image/upload/v1575898183/test2_g3yyil.jpg"
-            />
-          </Link>
+    <>
+      {isAuthenticated() && (
+        <ul>
+          <li>
+            <div className="drawer-background">
+              <Link to="/user/settings">
+                <img
+                  alt="cover"
+                  className="drawer-profile-pic"
+                  src="https://res.cloudinary.com/clothify/image/upload/v1575898183/test2_g3yyil.jpg"
+                />
+              </Link>
 
-          <span className="drawer-bg-links">John Doe</span>
+              <span className="drawer-bg-links">
+                {`${isAuthenticated().user.firstName} ${
+                  isAuthenticated().user.lastName
+                }`}
+              </span>
 
-          <span className="drawer-bg-links">jdandturk@gmail.com</span>
+              <span className="drawer-bg-links">
+                {isAuthenticated().user.email}
+              </span>
 
-          <span className="drawer-bg-links">Master Traveler</span>
-        </div>
-      </li>
-      <li>
-        <Link to={`/inbox/${isAuthenticated().user._id}`}>Inbox</Link>
-      </li>
-      <li>
-        <Link to="#!">Second Link</Link>
-      </li>
-      <li>
-        <div className="divider"></div>
-      </li>
-      <li>
-        <Link to="/" className="subheader">
-          Subheader
-        </Link>
-      </li>
-      <li>
-        <Link className="waves-effect" to="#!">
-          Third Link With Waves
-        </Link>
-      </li>
-    </ul>
+              <span className="drawer-bg-links">Master Traveler</span>
+            </div>
+          </li>
+          <li>
+            <Link to={`/inbox/${isAuthenticated().user._id}`}>Inbox</Link>
+          </li>
+          <li>
+            <Link to="/user/upcoming-rides">Upcoming rides</Link>
+          </li>
+          <li>
+            <Link to="/user/history">history</Link>
+          </li>
+          <li>
+            <Link to="/user/dashboard">Dashboard</Link>
+          </li>
+          <li>
+            <Link to="/search-rides">search for a ride</Link>
+          </li>
+          <li>
+            <Link to="/user/add-ride">offer a ride</Link>
+          </li>
+        </ul>
+      )}
+    </>
   );
   return (
     <>
