@@ -14,3 +14,19 @@ export const loadGoogleMaps = callback => {
   }
   if (existingScript && callback) callback();
 };
+
+export const loadSocketIoClient = callback => {
+  const existingScript = document.getElementById("socketIo-client");
+
+  if (!existingScript) {
+    const script = document.createElement("script");
+    script.src = `https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js`;
+    script.id = "socketIo-client";
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      if (callback) callback();
+    };
+  }
+  if (existingScript && callback) callback();
+};

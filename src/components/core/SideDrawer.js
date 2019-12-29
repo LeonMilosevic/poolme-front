@@ -44,7 +44,7 @@ const SideDrawer = () => {
             </div>
           </li>
           <li>
-            <Link to={`/inbox/${isAuthenticated().user._id}`}>Inbox</Link>
+            <Link to={`/user/inbox`}>Inbox</Link>
           </li>
           <li>
             <Link to="/user/upcoming-rides">Upcoming rides</Link>

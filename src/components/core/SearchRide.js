@@ -1,5 +1,4 @@
 import React from "react";
-// import third party
 // import context
 import UserContext from "../../context/user/userContext";
 // import comp

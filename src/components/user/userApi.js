@@ -79,3 +79,25 @@ export const getUser = (userId, token) => {
     .then(response => response.json())
     .catch(error => console.log(error));
 };
+
+export const getRides = (userId, token) => {
+  return fetch(`${API}/ride/list/${userId}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then(response => response.json())
+    .catch(error => console.log(error));
+};
+
+export const getSingleRideChat = (userId, token, rideId) => {
+  return fetch(`${API}/ride/read/${userId}/${rideId}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then(response => response.json())
+    .catch(error => console.log(error));
+};

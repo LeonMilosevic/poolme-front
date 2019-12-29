@@ -38,8 +38,8 @@ const UpcomingEvents = () => {
           {userContext.user.user.passenger.history.length === 0 ? (
             <div>no upcoming events</div>
           ) : (
-            upcoming().map(ride => (
-              <div key={ride.postId}>
+            upcoming().map((ride, i) => (
+              <div key={i}>
                 id: {ride.postId} <button>cancel</button>
               </div>
             ))

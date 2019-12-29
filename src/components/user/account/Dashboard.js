@@ -37,8 +37,8 @@ const Dashboard = () => {
           <div>People have rated you:</div>
           <div>
             Your history:{" "}
-            {userContext.user.user.passenger.history.map(item => (
-              <div key={item.postId}>{item.postId}</div>
+            {userContext.user.user.passenger.history.map((item, i) => (
+              <div key={i}>{item.postId}</div>
             ))}
           </div>
         </div>

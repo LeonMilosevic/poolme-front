@@ -14,6 +14,8 @@ import Dashboard from "../user/account/Dashboard";
 import PrivateRoute from "../auth/PrivateRoute";
 import UpcomingEvents from "../user/account/UpcomingEvents";
 import History from "../user/account/History";
+import InboxDisplay from "../user/account/InboxDisplay";
+import InboxChat from "../user/account/InboxChat";
 
 const Routes = () => {
   return (
@@ -30,6 +32,8 @@ const Routes = () => {
         path="/user/upcoming-rides"
         component={UpcomingEvents}
       />
+      <PrivateRoute exact path="/user/inbox" component={InboxDisplay} />
+      <PrivateRoute exact path="/user/inbox/:rideId" component={InboxChat} />
       <PrivateRoute exact path="/user/history" component={History} />
       <PrivateRoute exact path="/user/add-ride" component={AddRide} />
     </Switch>
