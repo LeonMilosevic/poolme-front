@@ -9,7 +9,6 @@ const InboxDisplay = () => {
   React.useEffect(() => {
     getRides(isAuthenticated().user._id, isAuthenticated().token).then(data => {
       if (data.error) return console.log(data.error);
-
       setRides(data);
     });
   }, []);
