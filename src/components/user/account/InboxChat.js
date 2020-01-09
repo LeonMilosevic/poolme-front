@@ -41,9 +41,11 @@ const InboxChat = props => {
       <div className="col s12 m12 l12">
         <div id="status"></div>
         <div id="chat">
-          <input type="text" id="username" placeholder="Enter name..." />
           <br />
-          <div style={{ width: "100%", height: "300px" }} className="card">
+          <div
+            style={{ width: "100%", height: "300px", overflow: "hidden" }}
+            className="card"
+          >
             <div id="messages"></div>
           </div>
           <br />
@@ -92,7 +94,6 @@ const InboxChat = props => {
     let status = element("status");
     let messages = element("messages");
     let textarea = element("textarea");
-    let username = element("username");
     // set default status
     if (status !== null) {
       let statusDefault = status.textContet;
@@ -113,7 +114,6 @@ const InboxChat = props => {
         // handle output, get messages from db server
         socket.emit("output", function(data) {
           if (data.chat.length) {
-            console.log(data.chat);
             for (let x = 0; x < data.chat.length; x++) {
               // build message div
 
@@ -131,12 +131,20 @@ const InboxChat = props => {
         textarea.addEventListener("keydown", function(event) {
           if (event.which === 13 && event.shiftKey == false) {
             socket.emit("input", {
-              name: username.value,
+              name: isAuthenticated().user.firstName,
               message: textarea.value
             });
 
             event.preventDefault();
           }
+        });
+
+        socket.on("message", function(recieve) {
+          let message = document.createElement("div");
+          message.setAttribute("className", "chat-message");
+          message.textContent = recieve.name + ": " + recieve.message;
+          messages.appendChild(message);
+          messages.insertBefore(message, messages.firstChild);
         });
 
         socket.on("status", function(data) {
