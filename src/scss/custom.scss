@@ -1,5 +1,45 @@
 .btn-custom {
-  background-color: red !important;
+  text-transform: initial !important;
+  width: 70%;
+  background-color: $color4;
+  border-radius: 10px;
+}
+// ride card
+.card-custom {
+  background-color: $color8;
+  width: 90%;
+  margin: 20px auto;
+  height: 40px;
+  color: $color4;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.card-city {
+  text-transform: capitalize;
+  font-size: 14px;
+}
+
+.card-date {
+  color: $color7;
+}
+
+.card-price {
+  color: $color6;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.btn i {
+  font-size: 22px;
+}
+
+i.right {
+  margin-left: -20px;
+}
+.material-icons {
+  margin-left: 0;
 }
 
 input[type="file"] {
@@ -12,4 +52,10 @@ input[type="file"] {
   display: inline-block;
   padding: 6px 12px;
   cursor: pointer;
+}
+
+// footer
+.page-footer {
+  background-color: $color4;
+  height: 50px;
 }

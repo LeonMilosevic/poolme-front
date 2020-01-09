@@ -5,10 +5,18 @@ import { Link } from "react-router-dom";
 const ReferLinks = () => {
   return (
     <div className="refer-links">
-      <Link to="add-rides" className="waves-effect waves-light btn">
+      <Link
+        to="/user/add-ride"
+        style={{ width: "30%", backgroundColor: "rgb(151, 45, 54)" }}
+        className="btn btn-custom"
+      >
         Offer a ride
       </Link>
-      <Link to="search-rides" className="waves-effect waves-light btn">
+      <Link
+        to="search-rides"
+        style={{ width: "30%" }}
+        className="btn btn-custom"
+      >
         Get a ride
       </Link>
     </div>

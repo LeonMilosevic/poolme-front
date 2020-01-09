@@ -11,7 +11,8 @@ const Rides = () => {
   }, []);
 
   return (
-    <div className="row">
+    <div className="row home-info center">
+      <div className="home-header">Explore some rides</div>
       {userContext.displayPostsByPrice.posts.map((post, i) => (
         <RidesCard key={i} post={post} />
       ))}

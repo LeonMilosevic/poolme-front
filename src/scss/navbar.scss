@@ -1,7 +1,12 @@
 .navbar-custom {
+  background-color: rgba($color: $color6, $alpha: 1);
 }
-
+.brand-logo {
+  color: $color4 !important;
+  left: 23% !important;
+}
 .navbar-search-link {
+  color: $color4;
   display: inline-flex;
   vertical-align: middle;
   &:hover {

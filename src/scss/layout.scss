@@ -3,19 +3,15 @@
   background-position: top;
   background-size: cover;
   height: 400px;
+  border-radius: 70px;
 }
 
-.layout-h {
-  font-size: 22px;
-  color: black;
-  position: relative;
-  top: 70%;
-  text-align: center;
+.hero-textbox {
+  margin: -5px 0 70px;
 }
 
-.layout-btn {
-  margin: auto;
-  display: block;
-  position: relative;
-  top: 70%;
+.hero-text > a {
+  color: $color4;
+  letter-spacing: 0.8px;
+  font-weight: 700;
 }

@@ -69,7 +69,7 @@ const SideDrawer = () => {
     <>
       <IconButton
         onClick={toggleDrawer}
-        style={{ color: "#ffffff" }}
+        style={{ color: "#000000" }}
         className="navbar-search-link focus-clear"
       >
         <MenuIcon style={{ fontSize: "24px" }} />
