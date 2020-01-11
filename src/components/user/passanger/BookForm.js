@@ -14,7 +14,7 @@ const BookForm = () => {
 
   const getSeats = () => {
     let arr = [];
-    for (let index = 0; index < userContext.singleRide.seats; index++) {
+    for (let index = 0; index < userContext.singlePost.seats; index++) {
       arr.push(index + 1);
     }
     return arr;

@@ -10,6 +10,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Input from "@material-ui/core/Input";
 import EuroIcon from "@material-ui/icons/Euro";
 import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
 const Post = () => {
   const userContext = React.useContext(UserContext);
@@ -44,6 +46,39 @@ const Post = () => {
           }
         />
       </FormControl>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={userContext.driverPost.petsAllowed}
+            onChange={userContext.handleChangeChecked("petsAllowed")}
+            value={userContext.driverPost.petsAllowed}
+            color="primary"
+          />
+        }
+        label="Primary"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={userContext.driverPost.smokingAllowed}
+            onChange={userContext.handleChangeChecked("smokingAllowed")}
+            value={userContext.driverPost.smokingAllowed}
+            color="primary"
+          />
+        }
+        label="Primary"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={userContext.driverPost.twoPeopleInTheBack}
+            onChange={userContext.handleChangeChecked("twoPeopleInTheBack")}
+            value={userContext.driverPost.twoPeopleInTheBack}
+            color="primary"
+          />
+        }
+        label="Primary"
+      />
       <TextField
         inputProps={{ maxLength: 250 }}
         id="driverText"

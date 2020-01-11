@@ -8,7 +8,7 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
 const Accounts = () => {
   return (
-    <div className="user-register-wrapper container">
+    <div className="fullheight-wrapper container">
       <div className="user-btn-wrapper">
         <Button
           component={Link}

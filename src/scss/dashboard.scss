@@ -1,0 +1,56 @@
+.dash-info-container {
+  padding: 10px 10px 0px 10px;
+}
+.dash-info {
+  background-color: $color6;
+  margin: auto;
+}
+
+.dash-info + .dash-info {
+  margin: 15px 0;
+}
+
+.dash-info-text {
+  font-size: 24px;
+  font-weight: 500;
+  color: $color4;
+  text-transform: capitalize;
+}
+
+.dash-info-check {
+  display: flex;
+  padding: 5px;
+  color: $color4;
+}
+
+.dash-check-text {
+  font-size: 14px;
+  font-weight: 700;
+  margin-left: 10px;
+}
+
+.dash-rank {
+  padding: 5px 10px;
+  letter-spacing: 0.9px;
+  font-size: 22px;
+  color: $color4;
+  background-color: $color8;
+  width: 100%;
+  text-transform: initial;
+}
+
+.btn-custom-dash {
+  background-color: $color6;
+  color: $color4;
+  font-size: 18px;
+  font-weight: 500;
+  border: 1px solid $color8;
+  margin: 20px 0;
+}
+
+.dash-info-subtext {
+  font-size: 18px;
+  font-weight: 600;
+  color: $color2;
+  text-transform: capitalize;
+}

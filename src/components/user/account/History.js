@@ -11,18 +11,29 @@ const History = () => {
   const userContext = React.useContext(UserContext);
 
   React.useEffect(() => {
-    getUser(isAuthenticated().user._id, isAuthenticated().token).then(data => {
-      if (data.error) return console.log(data.error);
+    if (
+      Object.entries(userContext.user.user).length === 0 &&
+      userContext.user.user.constructor === Object
+    ) {
+      getUser(isAuthenticated().user._id, isAuthenticated().token).then(
+        data => {
+          if (data.error) return console.log(data.error);
 
-      userContext.setUser({ ...userContext.user, user: data, loaded: true });
-    });
+          userContext.setUser({
+            ...userContext.user,
+            user: data,
+            loaded: true
+          });
+        }
+      );
+    }
   }, []);
 
   const history = () => {
     let historyR = [];
-    userContext.user.user.passenger.history.map(ride => {
-      if (new Date().getTime() > new Date(ride.timeOfDeparture).getTime())
-        return historyR.push(ride);
+    userContext.user.user.history.map(post => {
+      if (new Date().getTime() > new Date(post.timeOfDeparture).getTime())
+        return historyR.push(post);
     });
 
     return historyR;
@@ -35,7 +46,7 @@ const History = () => {
         <div className="container">
           <div>
             {history().length > 0 ? (
-              history().map(ride => <div key={ride.postId}>{ride.postId}</div>)
+              history().map(post => <div key={post._id}>{post._id}</div>)
             ) : (
               <div>no</div>
             )}

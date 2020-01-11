@@ -7,7 +7,7 @@ import {
   uploadLicense,
   createPost,
   getPosts,
-  createRide
+  bookRide
 } from "../../components/user/userApi";
 import { isAuthenticated } from "../../components/auth";
 
@@ -27,9 +27,13 @@ const UserState = props => {
     addressToLatLng: {},
     stoppingBy: "",
     stoppingByLatLng: {},
+    distance: Number,
     timeOfDeparture: new Date("2020-01-18T21:11:54"),
     pricePerPassanger: "",
     seats: "",
+    petsAllowed: false,
+    smokingAllowed: false,
+    twoPeopleInTheBack: false,
     extraText: "",
     loading: false,
     error: "",
@@ -44,7 +48,7 @@ const UserState = props => {
 
   const [allPosts, setAllPosts] = useState([]);
 
-  const [singleRide, setSingleRide] = useState({});
+  const [singlePost, setSinglePost] = useState({});
 
   const [bookSingleRide, setBookSingleRide] = useState({
     seats: "",
@@ -57,7 +61,7 @@ const UserState = props => {
     user: {},
     loaded: false,
     rank: "",
-    totalDistanceKm: ""
+    totalDistance: ""
   });
   // get posts
   const getPostsByPrice = () => {
@@ -104,6 +108,10 @@ const UserState = props => {
   // post change
   const handleChangePost = name => e => {
     setDriverPost({ ...driverPost, [name]: e.target.value, success: "" });
+  };
+  // checked change
+  const handleChangeChecked = name => e => {
+    setDriverPost({ ...driverPost, [name]: e.target.checked, success: "" });
   };
   // google maps
   const handleChangeAddressFrom = address => {
@@ -212,6 +220,31 @@ const UserState = props => {
       });
     }
 
+    // calculate distance
+    const rad = function(x) {
+      return (x * Math.PI) / 180;
+    };
+
+    const getDistance = function(p1, p2) {
+      const R = 6378137; // Earth’s mean radius in meter
+      const dLat = rad(p2.lat - p1.lat);
+      const dLong = rad(p2.lng - p1.lng);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(rad(p1.lat)) *
+          Math.cos(rad(p2.lat)) *
+          Math.sin(dLong / 2) *
+          Math.sin(dLong / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const d = R * c;
+      return d; // returns the distance in meter
+    };
+    const distancem = getDistance(
+      driverPost.addressFromLatLng,
+      driverPost.addressToLatLng
+    ).toFixed(2);
+    const distancekm = distancem / 1000;
+
     const post = {
       addressFrom: driverPost.addressFrom,
       addressFromLatLng: driverPost.addressFromLatLng,
@@ -221,8 +254,12 @@ const UserState = props => {
       stoppingByLatLng: driverPost.stoppingByLatLng,
       timeOfDeparture: driverPost.timeOfDeparture,
       pricePerPassanger: driverPost.pricePerPassanger,
+      petsAllowed: driverPost.petsAllowed,
+      smokingAllowed: driverPost.smokingAllowed,
+      twoPeopleInTheBack: driverPost.twoPeopleInTheBack,
       seats: driverPost.seats,
-      extraText: driverPost.extraText
+      extraText: driverPost.extraText,
+      distance: distancekm
     };
 
     createPost(isAuthenticated().token, isAuthenticated().user._id, post)
@@ -245,6 +282,10 @@ const UserState = props => {
           addressToLatLng: {},
           stoppingBy: "",
           stoppingByLatLng: {},
+          smokingAllowed: false,
+          petsAllowed: false,
+          twoPeopleInTheBack: false,
+          distance: undefined,
           timeOfDeparture: new Date("2020-01-18T21:11:54"),
           pricePerPassanger: "",
           seats: "",
@@ -257,40 +298,13 @@ const UserState = props => {
   const submitBooking = e => {
     e.preventDefault();
     setBookSingleRide({ ...bookSingleRide, loading: true });
-    // cal distance
-    const rad = function(x) {
-      return (x * Math.PI) / 180;
-    };
-
-    const getDistance = function(p1, p2) {
-      const R = 6378137; // Earth’s mean radius in meter
-      const dLat = rad(p2.lat - p1.lat);
-      const dLong = rad(p2.lng - p1.lng);
-      const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(rad(p1.lat)) *
-          Math.cos(rad(p2.lat)) *
-          Math.sin(dLong / 2) *
-          Math.sin(dLong / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      const d = R * c;
-      return d; // returns the distance in meter
-    };
-    const distance = getDistance(
-      singleRide.addressFromLatLng,
-      singleRide.addressToLatLng
-    ).toFixed(2);
     // create ride
     const ride = {
-      postId: singleRide._id,
-      addressFrom: singleRide.addressFrom,
-      addressTo: singleRide.addressTo,
-      stoppingBy: singleRide.stoppingBy,
-      seats: bookSingleRide.seats,
-      distance,
-      timeOfDeparture: singleRide.timeOfDeparture
+      postId: singlePost._id,
+      userId: isAuthenticated().user._id,
+      seats: bookSingleRide.seats
     };
-    createRide(isAuthenticated().token, isAuthenticated().user._id, ride)
+    bookRide(isAuthenticated().token, ride)
       .then(data => {
         if (data.error)
           return setBookSingleRide({
@@ -311,22 +325,19 @@ const UserState = props => {
   // calculating rank based on distance traveled function
   const calRank = () => {
     let rank;
-    let totalDistanceM;
-    let totalDistanceKm;
     let historyDistance = [];
 
     if (user.loaded) {
-      user.user.passenger.history.map(ride => {
-        historyDistance.push(Math.round(Number(ride.distance) * 1e2) / 1e2);
+      user.user.history.map(post => {
+        historyDistance.push(Math.round(Number(post.distance) * 1e2) / 1e2);
       });
     }
 
-    totalDistanceM = historyDistance.reduce((a, b) => a + b, 0);
-    totalDistanceKm = totalDistanceM / 1000;
+    const totalDistance = historyDistance.reduce((a, b) => a + b, 0);
 
-    if (totalDistanceKm < 500) {
+    if (totalDistance < 500) {
       rank = "the beginner";
-    } else if (totalDistanceKm < 1000) {
+    } else if (totalDistance < 1000) {
       rank = "the explorer";
     } else {
       rank = "the wise";
@@ -335,7 +346,7 @@ const UserState = props => {
     return setUser({
       ...user,
       rank,
-      totalDistanceKm: totalDistanceKm.toFixed(2)
+      totalDistance: totalDistance.toFixed(2)
     });
   };
 
@@ -362,10 +373,11 @@ const UserState = props => {
         displayPostsByPrice,
         getPostsByPrice,
         handleChangePost,
+        handleChangeChecked,
         clickSubmitPost,
         //single ride
-        singleRide,
-        setSingleRide,
+        singlePost,
+        setSinglePost,
         //book single
         bookSingleRide,
         setBookSingleRide,

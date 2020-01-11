@@ -43,7 +43,7 @@ export const getPosts = (sortBy, limit) => {
     .catch(error => console.log(error));
 };
 
-export const read = postById => {
+export const getSinglePost = postById => {
   return fetch(`${API}/posts/${postById}`, {
     method: "GET"
   })
@@ -51,13 +51,13 @@ export const read = postById => {
     .catch(error => console.log(error));
 };
 
-export const createRide = (token, userId, ride) => {
-  return fetch(`${API}/ride/create/${userId}`, {
+export const bookRide = (token, ride) => {
+  return fetch(`${API}/posts/book`, {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-type": "application/json",
-      Authorization: `Bearer ${token}`
+      Authorization: token
     },
     body: JSON.stringify(ride)
   })
@@ -71,28 +71,6 @@ export const createRide = (token, userId, ride) => {
 
 export const getUser = (userId, token) => {
   return fetch(`${API}/user/${userId}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-    .then(response => response.json())
-    .catch(error => console.log(error));
-};
-
-export const getRides = (userId, token) => {
-  return fetch(`${API}/ride/list/${userId}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-    .then(response => response.json())
-    .catch(error => console.log(error));
-};
-
-export const getSingleRideChat = (userId, token, rideId) => {
-  return fetch(`${API}/ride/read/${userId}/${rideId}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`

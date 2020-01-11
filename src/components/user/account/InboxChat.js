@@ -2,25 +2,26 @@ import React, { useState, useEffect } from "react";
 // import third party
 import io from "socket.io-client";
 // import helpers
+import { getSinglePost } from "../userApi";
 import { isAuthenticated } from "../../auth";
-import { getSingleRideChat } from "../userApi";
 import Spinner from "../../ui/Spinner";
 
 const InboxChat = props => {
-  const [singleRideChat, setSingleRideChat] = useState({});
+  const [postChat, setPostChat] = useState({
+    chat: [],
+    error: ""
+  });
 
   useEffect(() => {
-    getSingleRideChat(
-      isAuthenticated().user._id,
-      isAuthenticated().token,
-      props.match.params.rideId
-    )
-      .then(data => {
-        if (data.error) return console.log(data.error);
+    getSinglePost(props.match.params.rideId).then(data => {
+      if (data.error)
+        return setPostChat({
+          ...postChat,
+          error: "something went wrong, please try again"
+        });
 
-        setSingleRideChat(data);
-      })
-      .catch(error => console.log(error));
+      return setPostChat({ ...postChat, chat: data.ride.chat });
+    });
   }, []);
 
   const infoDiv = () => (
@@ -28,9 +29,9 @@ const InboxChat = props => {
       <div className="col s12 m12 l12">
         <div className="chat-info">
           <p>
-            {singleRideChat.addressFrom} - {singleRideChat.addressTo}
+            {postChat.addressFrom} - {postChat.addressTo}
           </p>
-          <p>{singleRideChat.timeOfDeparture}</p>
+          <p>{postChat.timeOfDeparture}</p>
         </div>
       </div>
     </div>
@@ -101,7 +102,7 @@ const InboxChat = props => {
         status.textContent = s;
 
         if (s !== statusDefault) {
-          let delay = setTimeout(() => {
+          setTimeout(() => {
             setStatus(statusDefault);
           }, 4000);
         }
@@ -113,14 +114,14 @@ const InboxChat = props => {
       if (socket !== undefined) {
         // handle output, get messages from db server
         socket.emit("output", function(data) {
-          if (data.chat.length) {
-            for (let x = 0; x < data.chat.length; x++) {
+          if (data.ride.chat.length) {
+            for (let x = 0; x < data.ride.chat.length; x++) {
               // build message div
 
               let message = document.createElement("div");
               message.setAttribute("className", "chat-message");
               message.textContent =
-                data.chat[x].name + ": " + data.chat[x].message;
+                data.ride.chat[x].name + ": " + data.ride.chat[x].message;
               messages.appendChild(message);
               messages.insertBefore(message, messages.firstChild);
             }
@@ -129,7 +130,7 @@ const InboxChat = props => {
         // handle input, send to server
 
         textarea.addEventListener("keydown", function(event) {
-          if (event.which === 13 && event.shiftKey == false) {
+          if (event.which === 13 && event.shiftKey === false) {
             socket.emit("input", {
               name: isAuthenticated().user.firstName,
               message: textarea.value
@@ -162,7 +163,7 @@ const InboxChat = props => {
 
   return (
     <>
-      {singleRideChat ? (
+      {postChat ? (
         <>
           {infoDiv()}
           {bradChat()}

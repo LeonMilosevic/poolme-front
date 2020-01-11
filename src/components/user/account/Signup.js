@@ -106,7 +106,7 @@ const Signup = () => {
         />
       </FormControl>
       <Button
-        className="green darken-3 user-btn-sign"
+        className="color4 user-btn-sign"
         variant="contained"
         color="secondary"
         onClick={authContext.handleSubmitReg}
@@ -121,7 +121,7 @@ const Signup = () => {
       {authContext.reg.loading ? (
         <Spinner />
       ) : (
-        <div className="user-register-wrapper container">
+        <div className="fullheight-wrapper container">
           {handleError(authContext.reg.error)}
           {authContext.redirectUser()}
           {registerBtn()}

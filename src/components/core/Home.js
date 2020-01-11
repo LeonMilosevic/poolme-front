@@ -12,7 +12,7 @@ const Home = () => {
   return (
     <>
       <Layout
-        bgimg={`url(https://res.cloudinary.com/clothify/image/upload/v1578590167/Asset_23_z3nv32.png)`}
+        bgimg={`url(https://res.cloudinary.com/clothify/image/upload/v1578599563/Asset_23_kb8qfh.png)`}
         btnText={"Search"}
         topLeft={"0px"}
         topRight={"0px"}
@@ -25,7 +25,7 @@ const Home = () => {
         }
       />
       <Layout
-        bgimg={`url(https://res.cloudinary.com/clothify/image/upload/v1578590167/Asset_24_mrst50.png)`}
+        bgimg={`url(https://res.cloudinary.com/clothify/image/upload/v1578599563/Asset_24_fgewym.png)`}
         btnText={"Offer ride"}
         heroText={"Are you a driver?"}
         linkTo={"/user/add-ride"}

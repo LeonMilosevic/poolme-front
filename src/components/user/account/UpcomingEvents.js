@@ -11,19 +11,31 @@ const UpcomingEvents = () => {
   const userContext = React.useContext(UserContext);
 
   React.useEffect(() => {
-    getUser(isAuthenticated().user._id, isAuthenticated().token).then(data => {
-      if (data.error) return console.log(data.error);
+    // check if the user state is populated, else make a call to populate state
+    if (
+      Object.entries(userContext.user.user).length === 0 &&
+      userContext.user.user.constructor === Object
+    ) {
+      getUser(isAuthenticated().user._id, isAuthenticated().token).then(
+        data => {
+          if (data.error) return console.log(data.error);
 
-      userContext.setUser({ ...userContext.user, user: data, loaded: true });
-    });
+          userContext.setUser({
+            ...userContext.user,
+            user: data,
+            loaded: true
+          });
+        }
+      );
+    }
   }, []);
 
   const upcoming = () => {
     let upcomingR = [];
 
-    userContext.user.user.passenger.history.map(ride => {
-      if (new Date().getTime() < new Date(ride.timeOfDeparture).getTime())
-        upcomingR.push(ride);
+    userContext.user.user.history.map(post => {
+      if (new Date().getTime() < new Date(post.timeOfDeparture).getTime())
+        upcomingR.push(post);
     });
 
     return upcomingR;
@@ -35,12 +47,12 @@ const UpcomingEvents = () => {
         <Spinner />
       ) : (
         <div className="container">
-          {userContext.user.user.passenger.history.length === 0 ? (
+          {userContext.user.user.history.length === 0 ? (
             <div>no upcoming events</div>
           ) : (
-            upcoming().map((ride, i) => (
+            upcoming().map((post, i) => (
               <div key={i}>
-                id: {ride.postId} <button>cancel</button>
+                id: {post._id} <button>cancel</button>
               </div>
             ))
           )}

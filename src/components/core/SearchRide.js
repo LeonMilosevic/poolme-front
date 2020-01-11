@@ -58,7 +58,7 @@ const SearchRide = () => {
   };
 
   return (
-    <div className="container">
+    <div className="fullheight-wrapper container">
       <p>You can search only available rides</p>
       <FormControl className="search-formcontrol">
         <InputLabel id="select-label">From</InputLabel>

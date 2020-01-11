@@ -59,3 +59,20 @@ input[type="file"] {
   background-color: $color4;
   height: 50px;
 }
+
+// global classes
+.color4 {
+  background-color: $color4 !important;
+}
+
+.color6 {
+  background-color: $color6;
+}
+
+.color8 {
+  background-color: $color8;
+}
+
+.fullheight-wrapper {
+  height: 100vh;
+}
