@@ -33,6 +33,7 @@
   padding: 5px 10px;
   letter-spacing: 0.9px;
   font-size: 22px;
+  font-weight: 700;
   color: $color4;
   background-color: $color8;
   width: 100%;
@@ -53,4 +54,105 @@
   font-weight: 600;
   color: $color2;
   text-transform: capitalize;
+}
+// exp bar
+.dash-exp {
+  margin: 100px 0;
+}
+
+.dash-header {
+  font-size: 20px;
+  color: $color4;
+  font-weight: 700;
+}
+
+.dash-expstart {
+  position: absolute;
+  left: 5px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.dash-expend {
+  position: absolute;
+  right: 5px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.dash-pointer {
+  position: absolute;
+  top: 75%;
+  left: 0;
+}
+
+#pointer {
+  opacity: 0;
+  animation-name: bounce;
+  animation-duration: 0.5s;
+  animation-delay: 2s;
+  animation-fill-mode: forwards;
+}
+
+#expbar {
+  animation-name: drag;
+  animation-duration: 2s;
+}
+
+.dash-pointer-td {
+  position: absolute;
+  top: 71%;
+  font-size: 18px;
+  font-weight: 700;
+  opacity: 0;
+  color: $color2;
+  animation-name: fadein;
+  animation-duration: 1s;
+  animation-delay: 5s;
+  animation-fill-mode: forwards;
+}
+// animations for exp bar
+@keyframes drag {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.1);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: scaleX(0.5);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes bounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(0.89);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

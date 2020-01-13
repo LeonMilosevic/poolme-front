@@ -325,28 +325,50 @@ const UserState = props => {
   // calculating rank based on distance traveled function
   const calRank = () => {
     let rank;
+    let expStart;
+    let expEnd;
+    let devider;
     let historyDistance = [];
-
+    // populate and calculate total user history distance traveled
     if (user.loaded) {
       user.user.history.map(post => {
-        historyDistance.push(Math.round(Number(post.distance) * 1e2) / 1e2);
+        return historyDistance.push(
+          Math.round(Number(post.distance) * 1e2) / 1e2
+        );
       });
     }
-
-    const totalDistance = historyDistance.reduce((a, b) => a + b, 0);
-
-    if (totalDistance < 500) {
+    // get total distance formula
+    let totalDistance = historyDistance.reduce((a, b) => a + b, 0);
+    totalDistance = 500;
+    // get start/end distance for experience display bar
+    // get the rank based on total distance
+    if (totalDistance < 1000) {
+      expStart = 0;
+      expEnd = 999;
+      devider = expEnd;
       rank = "the beginner";
-    } else if (totalDistance < 1000) {
+    } else if (totalDistance < 2000) {
+      expStart = 1000;
+      expEnd = 1999;
+      devider = expEnd;
       rank = "the explorer";
     } else {
+      expStart = 2000;
+      expEnd = undefined;
+      devider = expEnd;
       rank = "the wise";
     }
 
+    // get pointer position
+    const pointerPos = ((90 * totalDistance) / devider).toFixed(1);
+    console.log(pointerPos);
     return setUser({
       ...user,
       rank,
-      totalDistance: totalDistance.toFixed(2)
+      totalDistance: totalDistance.toFixed(2),
+      expStart,
+      expEnd,
+      pointerPos
     });
   };
 
@@ -375,7 +397,7 @@ const UserState = props => {
         handleChangePost,
         handleChangeChecked,
         clickSubmitPost,
-        //single ride
+        //single post
         singlePost,
         setSinglePost,
         //book single

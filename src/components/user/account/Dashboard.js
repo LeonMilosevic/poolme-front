@@ -11,6 +11,8 @@ import Spinner from "../../ui/Spinner";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import { ReactComponent as ExpBar } from "../../../imgs/expbar.svg";
+import { ReactComponent as Pointer } from "../../../imgs/pointer.svg";
 
 const Dashboard = () => {
   const userContext = React.useContext(UserContext);
@@ -27,6 +29,24 @@ const Dashboard = () => {
     // calculate rank to display on the page
     userContext.calRank();
   }, [userContext.user.loaded]);
+
+  // progress bar animate pointer
+
+  const pointerAnimate = sec => {
+    const pointer = document.getElementById("pointer-span");
+    if (pointer !== null) {
+      setTimeout(() => {
+        let atPercent = 0;
+        const interval = setInterval(() => {
+          pointer.style.left = atPercent + "%";
+          atPercent++;
+          if (atPercent > userContext.user.pointerPos) {
+            clearInterval(interval);
+          }
+        }, (sec * 1000) / 100);
+      }, 3500);
+    }
+  };
 
   // user components
 
@@ -59,17 +79,34 @@ const Dashboard = () => {
     </div>
   );
 
-  const travelInfo = () => (
+  const userRank = () => (
     <div className="center">
       <span className="dash-rank">
-        You'r rank:{" "}
+        Your rank:{" "}
         <span style={{ textTransform: "capitalize" }}>
           {userContext.user.rank}
         </span>
       </span>
-      <div className="dash-exp"></div>
+      <div className="dash-header">You have traveled:</div>
+      <div className="dash-exp">
+        <span
+          style={{ left: `${userContext.user.pointerPos - 3}%` }}
+          className="dash-pointer-td"
+        >
+          {userContext.user.totalDistance} km
+        </span>
+        <span id="pointer-span" className="dash-pointer">
+          {<Pointer id="pointer" width={50} height={50} />}
+        </span>
+        <div id="expbar">{<ExpBar width={"90%"} />}</div>
+        <span className="dash-expstart">{userContext.user.expStart} km</span>
+        <span className="dash-expend">{userContext.user.expEnd} km</span>
+      </div>
     </div>
   );
+
+  // user raiting
+  const userRating = () => <div className="dash-raiting"></div>;
 
   return (
     <>
@@ -77,9 +114,9 @@ const Dashboard = () => {
         <Spinner />
       ) : (
         <div className="fullheight-wrapper container-fluid">
+          {pointerAnimate(2)}
           {userInfo()}
-          {travelInfo()}
-          <div>People have rated you:</div>
+          {userRank()}
           <div>
             Your history:{" "}
             {userContext.user.user.history.map((item, i) => (
