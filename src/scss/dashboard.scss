@@ -111,6 +111,21 @@
   animation-delay: 5s;
   animation-fill-mode: forwards;
 }
+// rating css
+.dash-raiting {
+  background-color: $color8;
+  text-align: center;
+  height: 300px;
+  width: 100%;
+  text-transform: uppercase;
+}
+
+.user-history {
+  text-align: center;
+  height: 300px;
+  width: 100%;
+  text-transform: uppercase;
+}
 // animations for exp bar
 @keyframes drag {
   0% {

@@ -26,6 +26,7 @@ const Routes = () => {
       <Route exact path="/register/signup" component={Signup} />
       <Route exact path="/register/login" component={Login} />
       <Route exact path="/ride/:rideId" component={SingleRide} />
+      <Route exact path="/user/add-ride" component={AddRide} />
       <PrivateRoute exact path="/user/dashboard" component={Dashboard} />
       <PrivateRoute
         exact
@@ -35,7 +36,6 @@ const Routes = () => {
       <PrivateRoute exact path="/user/inbox" component={InboxDisplay} />
       <PrivateRoute exact path="/user/inbox/:rideId" component={InboxChat} />
       <PrivateRoute exact path="/user/history" component={History} />
-      <PrivateRoute exact path="/user/add-ride" component={AddRide} />
     </Switch>
   );
 };

@@ -59,7 +59,7 @@ const SearchRide = () => {
 
   return (
     <div className="fullheight-wrapper container">
-      <p>You can search only available rides</p>
+      <div className="dash-header">You can search only available rides</div>
       <FormControl className="search-formcontrol">
         <InputLabel id="select-label">From</InputLabel>
         <Select

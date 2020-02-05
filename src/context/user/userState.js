@@ -61,7 +61,8 @@ const UserState = props => {
     user: {},
     loaded: false,
     rank: "",
-    totalDistance: ""
+    totalDistance: "",
+    rating: ""
   });
   // get posts
   const getPostsByPrice = () => {
@@ -327,7 +328,6 @@ const UserState = props => {
     let rank;
     let expStart;
     let expEnd;
-    let devider;
     let historyDistance = [];
     // populate and calculate total user history distance traveled
     if (user.loaded) {
@@ -339,29 +339,42 @@ const UserState = props => {
     }
     // get total distance formula
     let totalDistance = historyDistance.reduce((a, b) => a + b, 0);
-    totalDistance = 500;
     // get start/end distance for experience display bar
     // get the rank based on total distance
     if (totalDistance < 1000) {
       expStart = 0;
       expEnd = 999;
-      devider = expEnd;
       rank = "the beginner";
     } else if (totalDistance < 2000) {
       expStart = 1000;
       expEnd = 1999;
-      devider = expEnd;
       rank = "the explorer";
     } else {
       expStart = 2000;
-      expEnd = undefined;
-      devider = expEnd;
+      expEnd = 3000;
       rank = "the wise";
     }
 
+    function getPercentage(totalDistance, endDistance) {
+      let position = (87 * totalDistance) / endDistance;
+      if (position >= 87) {
+        let secondPosition = position - 87;
+        if (secondPosition >= 87) {
+          let thirdPosition = secondPosition - 87;
+          if (thirdPosition >= 87) {
+            thirdPosition = 87;
+
+            return thirdPosition;
+          }
+          return thirdPosition;
+        }
+        return secondPosition;
+      }
+      return position;
+    }
+
     // get pointer position
-    const pointerPos = ((90 * totalDistance) / devider).toFixed(1);
-    console.log(pointerPos);
+    const pointerPos = getPercentage(totalDistance, 1000);
     return setUser({
       ...user,
       rank,
@@ -370,6 +383,13 @@ const UserState = props => {
       expEnd,
       pointerPos
     });
+  };
+
+  const calRating = () => {
+    if (user.user.review !== undefined) {
+      let ratingNumb = 10;
+      let review = 3;
+    }
   };
 
   return (
@@ -408,7 +428,8 @@ const UserState = props => {
         //user
         user,
         setUser,
-        calRank
+        calRank,
+        calRating
       }}
     >
       {props.children}

@@ -1,23 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import context
 import UserContext from "../../../context/user/userContext";
 // import helpers
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../../auth";
 import { getUser } from "../userApi";
+import Moment from "react-moment";
 // import components
 import Spinner from "../../ui/Spinner";
 // import icons
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { ReactComponent as ExpBar } from "../../../imgs/expbar.svg";
 import { ReactComponent as Pointer } from "../../../imgs/pointer.svg";
 
 const Dashboard = () => {
   const userContext = React.useContext(UserContext);
   // populate user in to the state to get access of information
-  React.useEffect(() => {
+  useEffect(() => {
     getUser(isAuthenticated().user._id, isAuthenticated().token).then(data => {
       if (data.error) return console.log(data.error);
 
@@ -25,9 +27,14 @@ const Dashboard = () => {
     });
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // calculate rank to display on the page
     userContext.calRank();
+  }, [userContext.user.loaded]);
+
+  useEffect(() => {
+    // calculate rank to display on the page
+    userContext.calRating();
   }, [userContext.user.loaded]);
 
   // progress bar animate pointer
@@ -78,7 +85,7 @@ const Dashboard = () => {
       </div>
     </div>
   );
-
+  // animating user rank for nicer display and displaying travel information
   const userRank = () => (
     <div className="center">
       <span className="dash-rank">
@@ -100,29 +107,67 @@ const Dashboard = () => {
         </span>
         <div id="expbar">{<ExpBar width={"90%"} />}</div>
         <span className="dash-expstart">{userContext.user.expStart} km</span>
-        <span className="dash-expend">{userContext.user.expEnd} km</span>
+        <span className="dash-expend">
+          {userContext.user.expEnd >= 3000
+            ? `${userContext.user.expEnd}+`
+            : userContext.user.expEnd}{" "}
+          km
+        </span>
       </div>
     </div>
   );
 
   // user raiting
-  const userRating = () => <div className="dash-raiting"></div>;
+  const userRating = () => (
+    <div className="dash-raiting">
+      <div style={{ paddingTop: "20px" }} className="dash-header">
+        People have rated you
+      </div>
+      <div>coming soon</div>
+    </div>
+  );
+
+  // user history
+
+  const userHistory = () => (
+    <div className="user-history">
+      <div style={{ paddingTop: "20px" }} className="dash-header">
+        Your recent history:
+      </div>
+      {userContext.user.user.history.slice(0, 3).map((item, i) => (
+        <div key={i} className="col s12 m12 l4 xl4">
+          <Link to={`/ride/history/${item._id}`}>
+            <div className="card-custom">
+              <div className="card-city">
+                {item.addressFrom.split(",")[0]} -{" "}
+                {item.addressTo.split(",")[0]}
+              </div>
+              <div>
+                <Moment className="card-date" format="MM/DD/YY" interval={0}>
+                  {item.timeOfDeparture}
+                </Moment>
+              </div>
+              <div style={{ marginTop: "5px" }}>
+                <ChevronRightIcon style={{ fontSize: "24px" }} />
+              </div>
+            </div>
+          </Link>
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <>
       {!userContext.user.loaded ? (
         <Spinner />
       ) : (
-        <div className="fullheight-wrapper container-fluid">
+        <div className="container-fluid">
           {pointerAnimate(2)}
           {userInfo()}
           {userRank()}
-          <div>
-            Your history:{" "}
-            {userContext.user.user.history.map((item, i) => (
-              <div key={i}>{item.postId}</div>
-            ))}
-          </div>
+          {userRating()}
+          {userHistory()}
         </div>
       )}
     </>

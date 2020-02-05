@@ -10,12 +10,26 @@ const Rides = () => {
     userContext.getPostsByPrice();
   }, []);
 
+  let upcomingR = [];
+
+  const displayRides = () => {
+    userContext.displayPostsByPrice.posts.map(post => {
+      if (new Date().getTime() < new Date(post.timeOfDeparture).getTime())
+        upcomingR.push(post);
+
+      return upcomingR;
+    });
+  };
+
   return (
     <div className="row home-info center">
       <div className="home-header">Explore some rides</div>
-      {userContext.displayPostsByPrice.posts.map((post, i) => (
-        <RidesCard key={i} post={post} />
-      ))}
+      {displayRides()}
+      {upcomingR.length > 0 ? (
+        upcomingR.map((item, i) => <RidesCard post={item} key={i} />)
+      ) : (
+        <div>No available rides</div>
+      )}
     </div>
   );
 };

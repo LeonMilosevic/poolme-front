@@ -45,9 +45,8 @@ const BookForm = () => {
       ) : (
         <div>
           <button className="waves-effect waves-light btn layout-btn disabled">
-            book
+            please sign in to book
           </button>
-          <p>please sign in</p>
         </div>
       )}
     </>

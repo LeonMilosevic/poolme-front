@@ -1,4 +1,6 @@
 import React from "react";
+// helper funcs
+import { isAuthenticated } from "../../auth";
 // import context
 import UserContext from "../../../context/user/userContext";
 // import material
@@ -12,13 +14,17 @@ import EuroIcon from "@material-ui/icons/Euro";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+// import icons
+import PetsIcon from "@material-ui/icons/Pets";
+import SmokingRoomsIcon from "@material-ui/icons/SmokingRooms";
+import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 
 const Post = () => {
   const userContext = React.useContext(UserContext);
   return (
     <>
       <FormControl className="form-input-custom">
-        <InputLabel id="select-label">Passangers</InputLabel>
+        <InputLabel id="select-label">Seats</InputLabel>
         <Select
           name="seats"
           labelId="select-label"
@@ -46,39 +52,64 @@ const Post = () => {
           }
         />
       </FormControl>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={userContext.driverPost.petsAllowed}
-            onChange={userContext.handleChangeChecked("petsAllowed")}
-            value={userContext.driverPost.petsAllowed}
-            color="primary"
-          />
-        }
-        label="Primary"
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={userContext.driverPost.smokingAllowed}
-            onChange={userContext.handleChangeChecked("smokingAllowed")}
-            value={userContext.driverPost.smokingAllowed}
-            color="primary"
-          />
-        }
-        label="Primary"
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={userContext.driverPost.twoPeopleInTheBack}
-            onChange={userContext.handleChangeChecked("twoPeopleInTheBack")}
-            value={userContext.driverPost.twoPeopleInTheBack}
-            color="primary"
-          />
-        }
-        label="Primary"
-      />
+      <div className="row">
+        <div className="col s12 m4 l4">
+          <div className="driver-checkbox">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={userContext.driverPost.petsAllowed}
+                  onChange={userContext.handleChangeChecked("petsAllowed")}
+                  value={userContext.driverPost.petsAllowed}
+                  color="primary"
+                />
+              }
+              label="Pets allowed"
+            />
+            <span className="driver-checkbox-icon">
+              <PetsIcon />
+            </span>
+          </div>
+        </div>
+        <div className="col s12 m4 l4">
+          <div className="driver-checkbox">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={userContext.driverPost.smokingAllowed}
+                  onChange={userContext.handleChangeChecked("smokingAllowed")}
+                  value={userContext.driverPost.smokingAllowed}
+                  color="primary"
+                />
+              }
+              label="Somikng allowed?"
+            />
+            <span className="driver-checkbox-icon">
+              <SmokingRoomsIcon />
+            </span>
+          </div>
+        </div>
+        <div className="col s12 m4 l4">
+          <div className="driver-checkbox">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={userContext.driverPost.twoPeopleInTheBack}
+                  onChange={userContext.handleChangeChecked(
+                    "twoPeopleInTheBack"
+                  )}
+                  value={userContext.driverPost.twoPeopleInTheBack}
+                  color="primary"
+                />
+              }
+              label="Two people in the back"
+            />
+            <span className="driver-checkbox-icon">
+              <PeopleAltIcon />
+            </span>
+          </div>
+        </div>
+      </div>
       <TextField
         inputProps={{ maxLength: 250 }}
         id="driverText"
@@ -93,13 +124,21 @@ const Post = () => {
         onChange={userContext.handleChangePost("extraText")}
         variant="outlined"
       />
-      <button
-        onClick={userContext.clickSubmitPost}
-        className="user-btn-sign btn btn-success waves-effect waves-light"
-        type="submit"
-      >
-        Submit
-      </button>
+      {isAuthenticated() ? (
+        <button
+          onClick={userContext.clickSubmitPost}
+          className="user-btn-sign btn btn-success waves-effect waves-light"
+          type="submit"
+        >
+          Submit
+        </button>
+      ) : (
+        <div>
+          <button className="user-btn-sign btn btn-success waves-effect waves-light disabled">
+            please sign in to submit
+          </button>
+        </div>
+      )}
     </>
   );
 };
