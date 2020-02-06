@@ -76,3 +76,27 @@ input[type="file"] {
 .fullheight-wrapper {
   height: 100vh;
 }
+// sidedrawer
+.MuiDrawer-paper {
+  background-color: $color6 !important;
+}
+
+.sidedrawer-list {
+  background-color: white;
+  margin: 10px 0;
+  padding-left: 10px;
+  font-size: 20px;
+}
+
+.sidedrawer-link {
+  display: block;
+  text-decoration: none;
+  color: $color4;
+}
+
+.sidedrawer-button {
+  margin: 15px auto;
+  background-color: white;
+  font-weight: 700;
+  text-transform: capitalize !important;
+}

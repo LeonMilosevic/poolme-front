@@ -13,6 +13,8 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import PetsIcon from "@material-ui/icons/Pets";
+import BlockIcon from "@material-ui/icons/Block";
+import SmokingRoomsIcon from "@material-ui/icons/SmokingRooms";
 
 const SingleRide = props => {
   const userContext = React.useContext(UserContext);
@@ -148,22 +150,80 @@ const SingleRide = props => {
             </div>
           </div>
           <div className="singleRide-extras">
-            <div>
+            <div className="singleRide-icon-div">
               {userContext.singlePost.petsAllowed ? (
                 <>
-                  <PetsIcon />
-                  not allowed
+                  <PetsIcon
+                    style={{
+                      fontSize: "20px",
+                      color: "#a3d9d2",
+                      marginRight: "5px"
+                    }}
+                  />
+                  Pets are allowed
                 </>
               ) : (
                 <>
-                  <PetsIcon />
-                  not allowed
+                  <BlockIcon
+                    style={{
+                      fontSize: "20px",
+                      color: "#bf4158",
+                      marginRight: "5px"
+                    }}
+                  />
+                  Pets are not allowed
                 </>
               )}
             </div>
-            <div>smoking allowed?: {userContext.singlePost.smokingAllowed}</div>
-            <div>
-              twoPeopleInTheBack?: {userContext.singlePost.twoPeopleInTheBack}
+            <div className="singleRide-icon-div">
+              {userContext.singlePost.smokingAllowed ? (
+                <>
+                  <SmokingRoomsIcon
+                    style={{
+                      fontSize: "20px",
+                      color: "#a3d9d2",
+                      marginRight: "5px"
+                    }}
+                  />
+                  Smoking is allowed
+                </>
+              ) : (
+                <>
+                  <BlockIcon
+                    style={{
+                      fontSize: "20px",
+                      color: "#bf4158",
+                      marginRight: "5px"
+                    }}
+                  />
+                  Smoking is not allowed
+                </>
+              )}
+            </div>
+            <div className="singleRide-icon-div">
+              {userContext.singlePost.twoPeopleInTheBack ? (
+                <>
+                  <CheckCircleIcon
+                    style={{
+                      fontSize: "20px",
+                      color: "#a3d9d2",
+                      marginRight: "5px"
+                    }}
+                  />
+                  Guarantees two people in the back
+                </>
+              ) : (
+                <>
+                  <BlockIcon
+                    style={{
+                      fontSize: "20px",
+                      color: "#bf4158",
+                      marginRight: "5px"
+                    }}
+                  />
+                  Does not guarantee two people in the back
+                </>
+              )}
             </div>
           </div>
 

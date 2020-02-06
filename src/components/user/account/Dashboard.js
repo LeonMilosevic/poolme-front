@@ -32,11 +32,6 @@ const Dashboard = () => {
     userContext.calRank();
   }, [userContext.user.loaded]);
 
-  useEffect(() => {
-    // calculate rank to display on the page
-    userContext.calRating();
-  }, [userContext.user.loaded]);
-
   // progress bar animate pointer
 
   const pointerAnimate = sec => {

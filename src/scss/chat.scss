@@ -1,8 +1,50 @@
-.chat-box {
-  height: 300px;
-  background-color: navy;
+.chat-info {
+  background-color: white;
+  width: 100%;
 }
 
 .no-padding {
   padding: 0;
+}
+
+.inbox-chatbox-head {
+  margin: 15px 0 20px 0;
+  font-size: 24px !important;
+}
+
+.inbox-chatbox {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  margin: 10px 0;
+  color: $color4;
+}
+.inbox-chat-infodiv {
+  margin: 5px 10px;
+}
+
+.inbox-chat-info {
+  text-transform: capitalize;
+  font-weight: 700;
+  color: $color4;
+}
+.chat-message {
+  display: flex !important;
+  margin: 10px 0;
+}
+
+.chat-message-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: $color4;
+}
+
+.chat-message-message {
+  background-color: white;
+  font-weight: 500;
+  font-size: 14px;
+  margin-left: 10px;
+  padding: 5px 15px;
 }

@@ -8,6 +8,8 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
+// import icons
+import PriorityHighIcon from "@material-ui/icons/PriorityHigh";
 
 const SearchRide = () => {
   const userContext = React.useContext(UserContext);
@@ -59,7 +61,16 @@ const SearchRide = () => {
 
   return (
     <div className="fullheight-wrapper container">
-      <div className="dash-header">You can search only available rides</div>
+      <div style={{ margin: "20px" }} className="dash-header center">
+        Search for a ride
+      </div>
+      <div
+        className="singleRide-icon-div"
+        style={{ justifyContent: "center", marginLeft: "-20px" }}
+      >
+        <PriorityHighIcon style={{ color: "#FFCC00", fontSize: "36px" }} />
+        <h6>Only available rides will be shown</h6>
+      </div>
       <FormControl className="search-formcontrol">
         <InputLabel id="select-label">From</InputLabel>
         <Select

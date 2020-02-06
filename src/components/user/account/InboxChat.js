@@ -5,11 +5,18 @@ import io from "socket.io-client";
 import { getSinglePost } from "../userApi";
 import { isAuthenticated } from "../../auth";
 import Spinner from "../../ui/Spinner";
+import Moment from "react-moment";
+// import icon
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 const InboxChat = props => {
   const [postChat, setPostChat] = useState({
     chat: [],
-    error: ""
+    error: "",
+    addressFrom: "",
+    addressTo: "",
+    pricePerPassanger: "",
+    timeOfDeparture: ""
   });
 
   useEffect(() => {
@@ -19,20 +26,32 @@ const InboxChat = props => {
           ...postChat,
           error: "something went wrong, please try again"
         });
-
-      return setPostChat({ ...postChat, chat: data.ride.chat });
+      return setPostChat({
+        ...postChat,
+        chat: data.ride.chat,
+        addressFrom: data.addressFrom,
+        addressTo: data.addressTo,
+        pricePerPassanger: data.pricePerPassanger,
+        timeOfDeparture: data.timeOfDeparture
+      });
     });
   }, []);
 
   const infoDiv = () => (
-    <div className="row">
-      <div className="col s12 m12 l12">
-        <div className="chat-info">
-          <p>
-            {postChat.addressFrom} - {postChat.addressTo}
-          </p>
-          <p>{postChat.timeOfDeparture}</p>
-        </div>
+    <div className="chat-info">
+      <div className="inbox-chat-infodiv">
+        <span className="inbox-chat-info">{postChat.addressFrom}</span> -{" "}
+        <span className="inbox-chat-info">{postChat.addressTo}</span>
+      </div>
+      <div className="inbox-chat-infodiv">
+        <Moment className="card-date" format="MM/DD/YY" interval={0}>
+          {postChat.timeOfDeparture}
+        </Moment>
+      </div>
+      <div className="inbox-chat-infodiv">
+        <span style={{ color: "#5fbfb1" }} className="inbox-chat-info">
+          &euro; {postChat.pricePerPassanger}
+        </span>
       </div>
     </div>
   );
@@ -40,13 +59,15 @@ const InboxChat = props => {
   const bradChat = () => (
     <div className="row">
       <div className="col s12 m12 l12">
+        <div className="dash-header center">
+          <Moment format="MMMM Do YYYY" interval={0}>
+            {postChat.timeOfDeparture}
+          </Moment>
+        </div>
         <div id="status"></div>
         <div id="chat">
           <br />
-          <div
-            style={{ width: "100%", height: "300px", overflow: "hidden" }}
-            className="card"
-          >
+          <div style={{ width: "100%", height: "300px", overflow: "scroll" }}>
             <div id="messages"></div>
           </div>
           <br />
@@ -59,33 +80,6 @@ const InboxChat = props => {
       </div>
     </div>
   );
-
-  // const chatBox = () => (
-  //   <div className="row">
-  //     <div className="col s12 m12 l12 no-padding">
-  //       <div className="status"></div>
-  //       <div id="chat" className="chat-box">
-  //         <div>
-
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
-
-  // const textBox = () => (
-  //   <div className="row">
-  //     <div className="col s12 m12 l12">
-  //       <div className="input-field col s8 m8 l8">
-  //         <textarea id="textarea1" className="materialize-textarea"></textarea>
-  //         <label htmlFor="textarea1">Textarea</label>
-  //       </div>
-  //       <div className="col s4 m4 l4">
-  //         <button>send</button>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
 
   const socketIo = () => {
     let element = id => {
@@ -117,13 +111,10 @@ const InboxChat = props => {
           if (data.ride.chat.length) {
             for (let x = 0; x < data.ride.chat.length; x++) {
               // build message div
-
               let message = document.createElement("div");
-              message.setAttribute("className", "chat-message");
-              message.textContent =
-                data.ride.chat[x].name + ": " + data.ride.chat[x].message;
+              message.setAttribute("class", "chat-message");
+              message.innerHTML = `<span class="chat-message-name">${data.ride.chat[x].name}</span> <span class="chat-message-message">${data.ride.chat[x].message}</span>`;
               messages.appendChild(message);
-              messages.insertBefore(message, messages.firstChild);
             }
           }
         });
@@ -143,9 +134,8 @@ const InboxChat = props => {
         socket.on("message", function(recieve) {
           let message = document.createElement("div");
           message.setAttribute("className", "chat-message");
-          message.textContent = recieve.name + ": " + recieve.message;
+          message.innerHTML = `<span class="chat-message-name">${recieve.name}</span> <span class="chat-message-message">${recieve.message}</span>`;
           messages.appendChild(message);
-          messages.insertBefore(message, messages.firstChild);
         });
 
         socket.on("status", function(data) {

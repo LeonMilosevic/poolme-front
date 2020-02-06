@@ -7,6 +7,7 @@ import { isAuthenticated } from "../auth";
 import MenuIcon from "@material-ui/icons/Menu";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 const SideDrawer = () => {
   // nav toggle state
@@ -21,46 +22,56 @@ const SideDrawer = () => {
       {isAuthenticated() && (
         <ul>
           <li>
-            <div className="drawer-background">
-              <Link to="/user/settings">
-                <img
-                  alt="cover"
-                  className="drawer-profile-pic"
-                  src="https://res.cloudinary.com/clothify/image/upload/v1575898183/test2_g3yyil.jpg"
-                />
-              </Link>
+            <div className="drawer-background center">
+              <AccountCircleIcon
+                style={{ fontSize: "80px", color: "white", marginTop: "40px" }}
+              />
 
               <span className="drawer-bg-links">
-                {`${isAuthenticated().user.firstName} ${
-                  isAuthenticated().user.lastName
-                }`}
+                {isAuthenticated().user.firstName}
               </span>
 
               <span className="drawer-bg-links">
-                {isAuthenticated().user.email}
+                {isAuthenticated().user.lastName}
               </span>
-
-              <span className="drawer-bg-links">Master Traveler</span>
             </div>
           </li>
-          <li>
-            <Link to={`/user/inbox`}>Inbox</Link>
+          <li className="sidedrawer-list">
+            <Link className="sidedrawer-link" to={`/user/inbox`}>
+              Inbox
+            </Link>
           </li>
-          <li>
-            <Link to="/user/upcoming-rides">Upcoming rides</Link>
+          <li className="sidedrawer-list">
+            <Link className="sidedrawer-link" to="/user/upcoming-rides">
+              Upcoming rides
+            </Link>
           </li>
-          <li>
-            <Link to="/user/history">history</Link>
+          <li className="sidedrawer-list">
+            <Link className="sidedrawer-link" to="/user/history">
+              History
+            </Link>
           </li>
-          <li>
-            <Link to="/user/dashboard">Dashboard</Link>
+          <li className="sidedrawer-list">
+            <Link className="sidedrawer-link" to="/user/dashboard">
+              Account
+            </Link>
           </li>
-          <li>
-            <Link to="/search-rides">search for a ride</Link>
-          </li>
-          <li>
-            <Link to="/user/add-ride">offer a ride</Link>
-          </li>
+          <div className="center">
+            <Link
+              style={{ color: "#5fbfb1" }}
+              className="sidedrawer-button btn btn-custom"
+              to="/search-rides"
+            >
+              search for a ride
+            </Link>
+            <Link
+              style={{ color: "#bf4158" }}
+              className="sidedrawer-button btn btn-custom"
+              to="/user/add-ride"
+            >
+              offer a ride
+            </Link>
+          </div>
         </ul>
       )}
     </>

@@ -5,6 +5,10 @@ import UserContext from "../../../context/user/userContext";
 import { Link } from "react-router-dom";
 import { getUser } from "../userApi";
 import { isAuthenticated } from "../../auth";
+import Moment from "react-moment";
+// import icons
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+
 const InboxDisplay = () => {
   const [userInboxChat, setUserInboxChat] = React.useState([]);
 
@@ -38,13 +42,33 @@ const InboxDisplay = () => {
   }, []);
 
   return (
-    <div>
+    <div className="fullheight-wrapper">
+      <div className="dash-header center inbox-chatbox-head">Inbox</div>
       {userInboxChat &&
-        userInboxChat.map(post => (
-          <div key={post._id}>
-            <Link to={`/user/inbox/${post._id}`}>{post._id}</Link>
-          </div>
-        ))}
+        userInboxChat.map(post => {
+          return (
+            <Link
+              key={post._id}
+              className="inbox-chatbox"
+              to={`/user/inbox/${post._id}`}
+            >
+              <div>
+                <AccountCircleIcon style={{ fontSize: "50px" }} />
+              </div>
+              <div>
+                <div>
+                  <span>{post.addressFrom}</span> -{" "}
+                  <span>{post.addressTo}</span>
+                </div>
+              </div>
+              <div>
+                <Moment className="card-date" format="MM/DD/YY" interval={0}>
+                  {post.timeOfDeparture}
+                </Moment>
+              </div>
+            </Link>
+          );
+        })}
     </div>
   );
 };

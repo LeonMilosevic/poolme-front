@@ -36,14 +36,16 @@ const BookForm = () => {
         </Select>
       </FormControl>
       {isAuthenticated() ? (
-        <button
-          onClick={userContext.submitBooking}
-          className="waves-effect waves-light btn layout-btn"
-        >
-          book
-        </button>
+        <div className="center" style={{ margin: "40px 0" }}>
+          <button
+            onClick={userContext.submitBooking}
+            className="waves-effect waves-light btn layout-btn"
+          >
+            book
+          </button>
+        </div>
       ) : (
-        <div>
+        <div className="center" style={{ margin: "40px 0" }}>
           <button className="waves-effect waves-light btn layout-btn disabled">
             please sign in to book
           </button>

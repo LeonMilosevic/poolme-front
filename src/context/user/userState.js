@@ -385,13 +385,6 @@ const UserState = props => {
     });
   };
 
-  const calRating = () => {
-    if (user.user.review !== undefined) {
-      let ratingNumb = 10;
-      let review = 3;
-    }
-  };
-
   return (
     <UserContext.Provider
       value={{
@@ -428,8 +421,7 @@ const UserState = props => {
         //user
         user,
         setUser,
-        calRank,
-        calRating
+        calRank
       }}
     >
       {props.children}
