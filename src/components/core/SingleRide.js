@@ -22,6 +22,7 @@ const SingleRide = props => {
   React.useEffect(() => {
     const id = props.match.params.rideId;
     getSinglePost(id).then(data => {
+      console.log(data);
       if (data.error)
         return userContext.setSinglePost({
           ...userContext.singlePost,
@@ -144,14 +145,14 @@ const SingleRide = props => {
             </div>
             <div className="singleRide-comment">
               <div>Drivers comment:</div>
-              <div style={{ textAlign: "left", color: "#f0f8f8" }}>
+              <div style={{ textAlign: "center", color: "#f0f8f8" }}>
                 {userContext.singlePost.extraText}
               </div>
             </div>
           </div>
           <div className="singleRide-extras">
             <div className="singleRide-icon-div">
-              {userContext.singlePost.petsAllowed ? (
+              {userContext.singlePost.petsAllowed === "true" ? (
                 <>
                   <PetsIcon
                     style={{
@@ -176,7 +177,7 @@ const SingleRide = props => {
               )}
             </div>
             <div className="singleRide-icon-div">
-              {userContext.singlePost.smokingAllowed ? (
+              {userContext.singlePost.smokingAllowed === "true" ? (
                 <>
                   <SmokingRoomsIcon
                     style={{
@@ -201,7 +202,7 @@ const SingleRide = props => {
               )}
             </div>
             <div className="singleRide-icon-div">
-              {userContext.singlePost.twoPeopleInTheBack ? (
+              {userContext.singlePost.twoPeopleInTheBack === "true" ? (
                 <>
                   <CheckCircleIcon
                     style={{

@@ -6,8 +6,6 @@ import { getSinglePost } from "../userApi";
 import { isAuthenticated } from "../../auth";
 import Spinner from "../../ui/Spinner";
 import Moment from "react-moment";
-// import icon
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 const InboxChat = props => {
   const [postChat, setPostChat] = useState({

@@ -57,6 +57,7 @@
   margin: 5px 0;
 }
 .singleRide-comment {
+  width: 50%;
   text-align: center;
   margin: 0 auto;
 }
@@ -67,6 +68,21 @@
 .singleRide-extras {
   font-weight: 700;
   padding-left: 5%;
+}
+// upcoming events page
+.noUpcoming-header {
+  margin: 20px 0 10px 0;
+}
+
+.noUpcoming-info {
+  margin-top: 150px;
+  font-size: 24px;
+  font-weight: 700;
+  color: $color8;
+}
+
+.noUpcoming-links {
+  margin-top: 140px;
 }
 .user-btn-wrapper {
   margin: 30px 0;

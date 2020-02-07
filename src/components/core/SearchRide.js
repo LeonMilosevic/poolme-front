@@ -34,7 +34,7 @@ const SearchRide = () => {
   }, [data.to]);
   // sorting funcs
   const sortedFromData = () => {
-    let tempData = userContext.allPosts;
+    let tempData = userContext.availablePosts;
 
     let tempFromData = tempData.filter(item => item.addressFrom === data.from);
 
@@ -79,8 +79,8 @@ const SearchRide = () => {
           value={data.from}
           onChange={handleChangeData("from")}
         >
-          {userContext.allPosts &&
-            userContext.allPosts.map((post, i) => (
+          {userContext.availablePosts &&
+            userContext.availablePosts.map((post, i) => (
               <MenuItem key={i} value={post.addressFrom}>
                 {post.addressFrom}
               </MenuItem>

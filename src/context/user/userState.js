@@ -48,6 +48,8 @@ const UserState = props => {
 
   const [allPosts, setAllPosts] = useState([]);
 
+  const [availablePosts, setAvailablePosts] = React.useState([]);
+
   const [singlePost, setSinglePost] = useState({});
 
   const [bookSingleRide, setBookSingleRide] = useState({
@@ -90,8 +92,14 @@ const UserState = props => {
     getPosts("createdAt", undefined)
       .then(data => {
         if (data.error) return console.log(data.error);
-
-        setAllPosts(data);
+        // pushing posts to array of only available rides
+        let tempAvailablePosts = [];
+        data.forEach(post => {
+          if (new Date().getTime() < new Date(post.timeOfDeparture).getTime())
+            tempAvailablePosts.push(post);
+        });
+        setAvailablePosts(tempAvailablePosts);
+        return setAllPosts(data);
       })
       .catch(error => console.log(error));
   };
@@ -405,6 +413,7 @@ const UserState = props => {
         //post
         allPosts,
         getAllPosts,
+        availablePosts,
         displayPostsByPrice,
         getPostsByPrice,
         handleChangePost,
