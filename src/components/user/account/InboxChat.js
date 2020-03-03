@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 // import third party
 import io from "socket.io-client";
 // import helpers
+import { SERVER } from "../../../config";
 import { getSinglePost } from "../userApi";
 import { isAuthenticated } from "../../auth";
 import Spinner from "../../ui/Spinner";
@@ -100,7 +101,7 @@ const InboxChat = props => {
         }
       };
 
-      let socket = io.connect(`http://127.0.0.1:5000`);
+      let socket = io.connect(SERVER);
 
       // check for connection
       if (socket !== undefined) {
