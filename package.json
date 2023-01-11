@@ -8,7 +8,7 @@
     "@material-ui/icons": "^4.5.1",
     "@material-ui/pickers": "^3.2.8",
     "date-fns": "^2.8.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "react": "^16.12.0",
